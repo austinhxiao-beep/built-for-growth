@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Built for Growth – The Sentient Workspace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --teal-900: #04342C;
+    --teal-800: #085041;
+    --teal-700: #0a5c4a;
+    --teal-600: #0F6E56;
+    --teal-500: #1D9E75;
+    --teal-300: #5DCAA5;
+    --teal-100: #9FE1CB;
+    --teal-50:  #E1F5EE;
+    --gray-900: #1a1a1a;
+    --gray-700: #3a3a3a;
+    --gray-500: #6b7280;
+    --gray-300: #d1d5db;
+    --gray-200: #e5e7eb;
+    --gray-100: #f3f4f6;
+    --gray-50:  #f9fafb;
+    --white: #ffffff;
+    --red-500: #E24B4A;
+    --amber-500: #EF9F27;
+    --blue-500: #378ADD;
+    --blue-50: #E6F1FB;
+    --blue-800: #0C447C;
+    --sidebar-w: 200px;
+    --font: 'DM Sans', system-ui, sans-serif;
+    --font-serif: 'DM Serif Display', Georgia, serif;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font);
+    background: var(--gray-50);
+    color: var(--gray-900);
+    display: flex;
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--white);
+    border-right: 1px solid var(--gray-200);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    padding: 0 0 1rem;
+  }
+  .sidebar-logo {
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--gray-100);
+    margin-bottom: 0.5rem;
+  }
+  .logo-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--teal-800);
+    line-height: 1.2;
+  }
+  .logo-sub {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 2px;
+  }
+  .nav-section {
+    flex: 1;
+    padding: 0 0.75rem;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--gray-500);
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    user-select: none;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-item:hover { background: var(--gray-100); color: var(--gray-900); }
+  .nav-item.active {
+    background: var(--teal-50);
+    color: var(--teal-800);
+    font-weight: 500;
+    border-left: 3px solid var(--teal-600);
+    padding-left: calc(0.75rem - 3px);
+  }
+  .nav-icon {
+    width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-divider { height: 1px; background: var(--gray-100); margin: 0.75rem 0.75rem; }
+  .sidebar-bottom {
+    padding: 0 0.75rem;
+  }
+  .new-questionnaire-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--teal-800);
+    color: var(--white);
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    transition: background 0.15s;
+  }
+  .new-questionnaire-btn:hover { background: var(--teal-600); }
+
+  /* MAIN CONTENT */
+  .main-content {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    height: 56px;
+    gap: 1.5rem;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .topbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-right: 1rem;
+  }
+  .topbar-nav {
+    display: flex; gap: 1.5rem;
+    flex: 1;
+  }
+  .topbar-link {
+    font-size: 13.5px;
+    color: var(--gray-500);
+    cursor: pointer;
+    padding-bottom: 2px;
+    border: none; background: none;
+    transition: color 0.15s;
+  }
+  .topbar-link:hover { color: var(--gray-900); }
+  .topbar-link.active {
+    color: var(--teal-800);
+    font-weight: 500;
+    border-bottom: 2px solid var(--teal-600);
+  }
+  .topbar-right {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-left: auto;
+  }
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--gray-100);
+    border-radius: var(--radius-sm);
+    padding: 0.35rem 0.75rem;
+    font-size: 13px;
+    color: var(--gray-500);
+    width: 180px;
+  }
+  .icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--gray-100);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    border: none;
+    font-size: 15px;
+    color: var(--gray-500);
+  }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    color: var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* PAGE WRAPPER */
+  .page { padding: 2rem; max-width: 1000px; }
+  .page-full { padding: 2rem; }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+  }
+  .card-sm {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+  }
+
+  /* BADGES */
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 500;
+  }
+  .badge-teal { background: var(--teal-50); color: var(--teal-800); }
+  .badge-amber { background: #FAEEDA; color: #854F0B; }
+  .badge-blue { background: var(--blue-50); color: var(--blue-800); }
+  .badge-gray { background: var(--gray-100); color: var(--gray-700); }
+  .badge-red { background: #FCEBEB; color: #A32D2D; }
+  .badge-green { background: #EAF3DE; color: #3B6D11; }
+
+  /* PROGRESS */
+  .progress-bar-track {
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--teal-600);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  /* SECTIONS */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-500);
+    margin-bottom: 0.5rem;
+  }
+
+  /* =================== PAGE: QUESTIONNAIRE =================== */
+  .q-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  .q-left {}
+  .q-heading {
+    font-family: var(--font-serif);
+    font-size: 36px;
+    line-height: 1.2;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+  }
+  .q-desc {
+    font-size: 13.5px;
+    color: var(--gray-500);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .q-insight-card {
+    background: var(--teal-50);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    display: flex; gap: 0.75rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .q-insight-icon { font-size: 18px; margin-top: 2px; }
+  .q-insight-title { font-size: 13px; font-weight: 600; color: var(--teal-800); margin-bottom: 4px; }
+  .q-insight-body { font-size: 12.5px; color: var(--teal-700); }
+  .q-image {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, var(--gray-200) 0%, var(--gray-300) 100%);
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .q-image svg { opacity: 0.3; }
+  .q-right {}
+  .q-question-text {
+    font-size: 15px;
+    color: var(--gray-700);
+    font-style: italic;
+    margin-bottom: 1.25rem;
+  }
+  .q-option {
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    transition: all 0.15s;
+  }
+  .q-option:hover { border-color: var(--teal-300); background: var(--teal-50); }
+  .q-option.selected {
+    border-color: var(--teal-600);
+    background: var(--teal-800);
+  }
+  .q-option.selected .q-opt-title { color: var(--white); }
+  .q-option.selected .q-opt-desc { color: var(--teal-100); }
+  .q-radio {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-300);
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .q-option.selected .q-radio {
+    border-color: var(--white);
+    background: var(--white);
+  }
+  .q-radio-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal-600);
+  }
+  .q-opt-title { font-size: 13.5px; font-weight: 500; color: var(--gray-900); }
+  .q-opt-desc { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+  .q-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0.55rem 1.1rem;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    background: none;
+    font-size: 13.5px;
+    cursor: pointer;
+    color: var(--gray-700);
+    transition: all 0.15s;
+    font-family: var(--font);
+  }
+  .btn-outline:hover { border-color: var(--gray-300); background: var(--gray-50); }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0.6rem 1.4rem;
+    border-radius: var(--radius-sm);
+    background: var(--teal-800);
+    color: var(--white);
+    font-size: 13.5px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+  .btn-primary:hover { background: var(--teal-600); }
+  .growth-pilot {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 0.9rem 1rem;
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    margin-top: 1.5rem;
+  }
+  .pilot-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--teal-500);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .pilot-text { font-size: 12.5px; color: var(--gray-600); }
+  .pilot-name { font-size: 12.5px; font-weight: 600; color: var(--gray-700); margin-bottom: 2px; }
+  .q-step-header { margin-bottom: 1.75rem; }
+  .q-step-label { font-size: 12px; color: var(--gray-500); margin-bottom: 0.5rem; }
+  .q-completion { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+  .q-footer-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem; margin-top: 3rem;
+  }
+  .q-footer-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    text-align: center;
+  }
+  .q-footer-icon { font-size: 24px; margin-bottom: 0.5rem; }
+  .q-footer-title { font-size: 13px; font-weight: 600; color: var(--gray-900); margin-bottom: 0.25rem; }
+  .q-footer-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+
+  /* =================== PAGE: DAC DASHBOARD =================== */
+  .dac-header { margin-bottom: 2rem; display: flex; align-items: flex-start; justify-content: space-between; }
+  .dac-heading { font-family: var(--font-serif); font-size: 40px; line-height: 1.15; color: var(--gray-900); margin-bottom: 0.75rem; }
+  .dac-subheading { font-size: 14px; color: var(--gray-500); max-width: 520px; line-height: 1.7; }
+  .sentiment-card {
+    background: var(--white); border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+    min-width: 180px; text-align: right;
+  }
+  .sentiment-label { font-size: 12px; color: var(--gray-500); margin-bottom: 0.25rem; }
+  .sentiment-score { font-family: var(--font-serif); font-size: 48px; color: var(--gray-900); line-height: 1; }
+  .sentiment-delta { font-size: 12px; color: var(--teal-600); margin-top: 4px; }
+  .dac-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .dac-section-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .dac-section-title { font-size: 20px; font-weight: 600; color: var(--gray-900); }
+  .dac-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+  .priority-card {
+    background: var(--gray-50); border: 1px solid var(--gray-100);
+    border-radius: var(--radius-md); padding: 1rem 1.1rem; margin-bottom: 1rem;
+  }
+  .priority-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.4rem; }
+  .priority-name { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+  .priority-desc { font-size: 12.5px; color: var(--gray-500); line-height: 1.5; margin-bottom: 0.75rem; }
+  .avatar-stack { display: flex; align-items: center; }
+  .avatar-sm {
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 2px solid var(--white);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 600; color: var(--white);
+    margin-left: -6px;
+  }
+  .avatar-sm:first-child { margin-left: 0; }
+  .avatar-count {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--gray-200); color: var(--gray-600);
+    font-size: 9px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    margin-left: -6px; border: 2px solid var(--white);
+  }
+  .metrics-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .metric-box {
+    background: var(--white); border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm); padding: 0.75rem 1rem;
+  }
+  .metric-label { font-size: 11px; color: var(--gray-500); margin-bottom: 4px; }
+  .metric-value { font-size: 18px; font-weight: 600; color: var(--gray-900); }
+  .trust-ring {
+    display: flex; align-items: center; justify-content: center;
+    margin: 1rem 0;
+  }
+  .trust-ring svg { transform: rotate(-90deg); }
+  .trust-ring-label {
+    position: absolute;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .trust-number { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+  .trust-sub { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); }
+  .trust-ring-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+  .recent-context {
+    background: var(--gray-50); border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem; margin-top: 0.75rem;
+  }
+  .context-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 0.4rem; }
+  .context-quote { font-size: 12.5px; color: var(--gray-700); font-style: italic; }
+  .alignment-card { margin-top: 1.5rem; }
+  .align-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+  .align-tab {
+    padding: 4px 12px; border-radius: 20px; font-size: 12px;
+    border: 1px solid var(--gray-200);
+    cursor: pointer; background: none; font-family: var(--font);
+    color: var(--gray-700);
+    transition: all 0.15s;
+  }
+  .align-tab.active { background: var(--gray-100); font-weight: 500; }
+  .workflow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .workflow-item {
+    border-left: 3px solid;
+    padding: 0.6rem 0.75rem;
+  }
+  .workflow-route { font-size: 13px; font-weight: 500; color: var(--gray-900); margin-bottom: 2px; }
+  .workflow-wait { font-size: 12px; color: var(--gray-500); }
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .who-card {
+    background: var(--gray-50); border: 1px solid var(--gray-200);
+    border-radius: var(--radius-sm); padding: 0.75rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .who-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 600; color: var(--white);
+  }
+  .who-name { font-size: 13px; font-weight: 500; color: var(--gray-900); }
+  .who-role { font-size: 11.5px; color: var(--gray-500); margin-bottom: 3px; }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 4px;
+  }
+  .status-available { background: #22c55e; }
+  .status-meeting { background: var(--amber-500); }
+  .dac-footer { font-size: 12px; color: var(--gray-400); margin-top: 1.5rem; display: flex; align-items: center; gap: 8px; }
+  .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; display: inline-block; }
+  .link-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--teal-700);
+    font-weight: 500; cursor: pointer; margin-top: 0.75rem;
+    border: none; background: none; font-family: var(--font);
+  }
+  .link-btn:hover { color: var(--teal-500); }
+
+  /* =================== PAGE: TEAM DYNAMICS =================== */
+  .td-header { display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: start; margin-bottom: 2rem; }
+  .td-heading { font-family: var(--font-serif); font-size: 36px; line-height: 1.2; color: var(--gray-900); margin-bottom: 1rem; }
+  .td-heading span { color: var(--teal-600); }
+  .td-psych-card { margin-bottom: 2rem; }
+  .psych-score { font-size: 48px; font-weight: 700; color: var(--gray-900); }
+  .psych-score span { font-size: 20px; font-weight: 400; color: var(--gray-500); }
+  .psych-bars { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .psych-bar-item {}
+  .psych-bar-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 4px; }
+  .psych-bar-track { height: 4px; background: var(--gray-200); border-radius: 2px; overflow: hidden; }
+  .psych-bar-fill { height: 100%; border-radius: 2px; }
+  .spike-card {
+    background: var(--teal-800); color: var(--white);
+    border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+    min-width: 240px;
+  }
+  .spike-icon { font-size: 20px; margin-bottom: 0.5rem; }
+  .spike-title { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 0.5rem; }
+  .spike-body { font-size: 12.5px; color: var(--teal-100); line-height: 1.6; margin-bottom: 1rem; }
+  .btn-white {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--teal-800);
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: var(--font);
+  }
+  .btn-white:hover { background: var(--teal-50); }
+  .onboard-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; margin-bottom: 2rem; }
+  .onboard-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .member-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+  .member-name { font-size: 15px; font-weight: 600; color: var(--gray-900); }
+  .member-role { font-size: 12px; color: var(--gray-500); }
+  .archetype-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .tag-explorer { background: #E6F1FB; color: var(--blue-800); }
+  .tag-driver { background: #FAEEDA; color: #854F0B; }
+  .tag-captain { background: var(--teal-50); color: var(--teal-800); }
+  .tag-crusader { background: #FCEBEB; color: #A32D2D; }
+  .tag-architect { background: #EEEDFE; color: #3C3489; }
+  .tag-catalyst { background: #FAEEDA; color: #854F0B; }
+  .tag-guardian { background: #EAF3DE; color: #3B6D11; }
+  .member-quote { font-size: 12.5px; color: var(--gray-600); font-style: italic; line-height: 1.5; margin-bottom: 0.75rem; }
+  .integration-tip { font-size: 12px; color: var(--gray-500); }
+  .tip-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 4px; }
+  .balance-matrix { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .balance-title { font-size: 14px; font-weight: 600; color: var(--gray-900); margin-bottom: 1rem; }
+  .matrix-diagram { width: 100%; height: 140px; }
+  .balance-note { font-size: 12px; color: var(--gray-500); margin-top: 0.75rem; line-height: 1.5; }
+  .balance-note strong { color: var(--gray-700); }
+  .roster-section { margin-top: 2rem; }
+  .roster-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .roster-title { font-size: 18px; font-weight: 600; }
+  .roster-sub { font-size: 12px; color: var(--gray-500); }
+  .roster-table { width: 100%; border-collapse: collapse; }
+  .roster-table th {
+    text-align: left; font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500);
+    padding: 0.6rem 1rem; border-bottom: 1px solid var(--gray-200);
+  }
+  .roster-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--gray-100); font-size: 13.5px; }
+  .roster-table tr:last-child td { border-bottom: none; }
+  .member-cell { display: flex; align-items: center; gap: 0.75rem; }
+  .member-initials {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--white);
+  }
+  .sync-bar { display: flex; align-items: center; gap: 0.75rem; }
+  .sync-track { flex: 1; height: 5px; background: var(--gray-200); border-radius: 3px; overflow: hidden; }
+  .sync-fill { height: 100%; background: var(--teal-500); border-radius: 3px; }
+  .status-pill {
+    font-size: 11px; font-weight: 500; padding: 2px 8px;
+    border-radius: 20px;
+  }
+  .status-optimized { background: var(--teal-50); color: var(--teal-800); }
+  .status-sync { background: var(--gray-100); color: var(--gray-600); }
+  .status-stable { background: #EAF3DE; color: #3B6D11; }
+  .download-btn {
+    display: block; margin: 1.5rem auto 0;
+    padding: 0.7rem 2rem; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--gray-200);
+    background: none; font-size: 13.5px; font-weight: 500;
+    cursor: pointer; color: var(--gray-700);
+    font-family: var(--font);
+    transition: all 0.15s;
+  }
+  .download-btn:hover { background: var(--gray-50); border-color: var(--gray-300); }
+
+  /* =================== PAGE: ARCHETYPES =================== */
+  .arch-hero { margin-bottom: 2.5rem; }
+  .arch-heading { font-family: var(--font-serif); font-size: 48px; line-height: 1.15; margin-bottom: 0.75rem; }
+  .arch-heading span { color: var(--teal-600); }
+  .arch-subheading { font-size: 14px; color: var(--gray-500); max-width: 480px; line-height: 1.7; }
+  .arch-ai-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--blue-50); color: var(--blue-800);
+    padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 500;
+    margin-top: 1rem;
+  }
+  .arch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+  .arch-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.5rem; }
+  .arch-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+  .arch-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+  .arch-type-label {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gray-400);
+  }
+  .arch-name { font-size: 24px; font-weight: 700; color: var(--gray-900); margin-bottom: 0.5rem; }
+  .arch-desc { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 1rem; }
+  .arch-detail-label {
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gray-500); margin-bottom: 0.4rem; margin-top: 0.75rem;
+  }
+  .arch-strength-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .friction-text { font-size: 12.5px; color: var(--red-500); line-height: 1.5; }
+  .tool-intervention {
+    background: var(--gray-50); border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem; margin-top: 0.75rem;
+    display: flex; gap: 0.5rem; align-items: flex-start;
+  }
+  .tool-label { font-size: 12px; font-weight: 600; color: var(--gray-700); margin-bottom: 2px; }
+  .tool-desc { font-size: 12px; color: var(--gray-500); line-height: 1.5; }
+  .intersection-card {
+    background: var(--gray-50); border-radius: var(--radius-lg); padding: 2rem;
+    display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center;
+    margin-bottom: 2rem;
+  }
+  .intersection-heading { font-family: var(--font-serif); font-size: 28px; color: var(--gray-900); margin-bottom: 0.75rem; }
+  .intersection-desc { font-size: 13.5px; color: var(--gray-600); line-height: 1.7; margin-bottom: 1.5rem; }
+  .arch-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--gray-200); }
+  .arch-footer-stat { text-align: center; }
+  .arch-footer-num { font-size: 24px; font-weight: 700; color: var(--gray-900); }
+  .arch-footer-label { font-size: 11px; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.06em; }
+  .arch-footer-note { font-size: 12px; color: var(--gray-400); }
+
+  /* ONBOARDING PATH PAGE */
+  .path-step {
+    background: var(--white); border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md); padding: 1.25rem 1.5rem;
+    display: flex; align-items: flex-start; gap: 1rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.15s;
+  }
+  .path-step:hover { border-color: var(--teal-300); }
+  .path-step.completed { opacity: 0.7; }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; flex-shrink: 0;
+  }
+  .step-complete { background: var(--teal-500); color: var(--white); }
+  .step-current { background: var(--teal-800); color: var(--white); }
+  .step-pending { background: var(--gray-200); color: var(--gray-500); }
+  .step-title { font-size: 14px; font-weight: 500; color: var(--gray-900); }
+  .step-desc { font-size: 12.5px; color: var(--gray-500); margin-top: 2px; }
+  .step-est { font-size: 11.5px; color: var(--gray-400); margin-top: 4px; }
+
+  /* INSIGHTS */
+  .insights-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .insight-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.5rem; }
+  .insight-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; }
+  .insight-title { font-size: 15px; font-weight: 600; color: var(--gray-900); }
+  .insight-value { font-size: 36px; font-weight: 700; color: var(--gray-900); }
+  .insight-delta { font-size: 12.5px; margin-top: 2px; }
+  .delta-pos { color: var(--teal-600); }
+  .delta-neg { color: var(--red-500); }
+
+  /* PAGE TRANSITIONS */
+  .page-enter { animation: pageIn 0.2s ease; }
+  @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-name">Built for Growth</div>
+    <div class="logo-sub">The Sentient Workspace</div>
+  </div>
+  <div class="nav-section">
+    <button class="nav-item" id="nav-dashboard" onclick="navigate('dashboard')">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      </div>
+      Dashboard
+    </button>
+    <button class="nav-item" id="nav-archetypes" onclick="navigate('archetypes')">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/></svg>
+      </div>
+      Team Archetypes
+    </button>
+    <button class="nav-item" id="nav-onboarding" onclick="navigate('onboarding')">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      Onboarding Path
+    </button>
+    <button class="nav-item" id="nav-dac" onclick="navigate('dac')">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      Insights
+    </button>
+    <button class="nav-item" id="nav-settings" onclick="navigate('settings')">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </div>
+      Settings
+    </button>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="sidebar-bottom">
+    <button class="new-questionnaire-btn" onclick="navigate('onboarding')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      New Questionnaire
+    </button>
+    <button class="nav-item">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      Help
+    </button>
+    <button class="nav-item">
+      <div class="nav-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+      Sign Out
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <div id="app-root"></div>
+</div>
+
+<script>
+let currentPage = 'dashboard';
+
+// ── Questionnaire state ──────────────────────────────────────────────────────
+let qStep = 0;          // 0-9
+let qAnswers = {};      // { stepIndex: archetypeKey }
+let qShowResults = false;
+
+const QUESTIONS = [
+  {
+    heading: 'How do you navigate ambiguity?',
+    prompt: '"When faced with a project where the final outcome is not clearly defined, I usually..."',
+    insight: 'Teams with diverse ambiguity styles resolve uncertainty 31% faster.',
+    options: [
+      { archetype: 'captain',  title: 'Build a detailed framework first',       desc: 'I thrive by creating structure where none exists to ensure consistency.' },
+      { archetype: 'driver',   title: 'Start with a prototype and iterate',     desc: 'I prefer to learn by doing and adjust based on real-time feedback.' },
+      { archetype: 'crusader', title: 'Gather perspectives from stakeholders',  desc: 'I prioritize finding alignment across different viewpoints before acting.' },
+      { archetype: 'explorer', title: 'Step back and analyze the big picture',  desc: 'I look for patterns and long-term implications before deciding on a path.' },
+    ]
+  },
+  {
+    heading: 'When a project falls behind, you...',
+    prompt: '"My first instinct when we are behind schedule is to..."',
+    insight: 'How teams respond to setbacks is a stronger predictor of success than initial planning quality.',
+    options: [
+      { archetype: 'driver',   title: 'Cut scope ruthlessly and ship what is ready',        desc: 'Momentum matters. I protect the deadline by trimming what we can.' },
+      { archetype: 'explorer', title: 'Question whether we are solving the right problem',  desc: 'A delay might mean we need to rethink our approach entirely.' },
+      { archetype: 'crusader', title: 'Hold a team sync to realign and re-energize',        desc: 'Getting the team back on the same page is always step one.' },
+      { archetype: 'captain',  title: 'Rebuild the project plan with clearer dependencies', desc: 'I map out what is blocking what and restructure the sequencing.' },
+    ]
+  },
+  {
+    heading: 'Your definition of a successful meeting...',
+    prompt: '"I leave a meeting feeling satisfied when..."',
+    insight: 'Meeting culture accounts for up to 19% of variance in team psychological safety scores.',
+    options: [
+      { archetype: 'driver',   title: 'Decisions were made and next steps assigned',   desc: 'Clear owners, clear actions. Everything else is noise.' },
+      { archetype: 'explorer', title: 'Unexpected ideas or connections were surfaced',  desc: 'The best meetings change how I think about the problem.' },
+      { archetype: 'crusader', title: 'Everyone was heard and left aligned',            desc: 'If even one person checked out, the meeting did not work.' },
+      { archetype: 'captain',  title: 'Risks and dependencies were fully mapped',       desc: 'A good meeting surfaces what could go wrong before it does.' },
+    ]
+  },
+  {
+    heading: 'A new teammate joins your team. You...',
+    prompt: '"The first thing I do when someone new joins is..."',
+    insight: 'New hire integration quality in week one predicts 6-month retention with 78% accuracy.',
+    options: [
+      { archetype: 'driver',   title: 'Give them a real project to dive into immediately',   desc: 'The fastest way to learn is by doing something that matters.' },
+      { archetype: 'explorer', title: 'Share the team\'s biggest unsolved mysteries',         desc: 'I want them excited by the problems we have not figured out yet.' },
+      { archetype: 'crusader', title: 'Introduce them personally to every team member',       desc: 'Belonging comes first — the work can wait a few days.' },
+      { archetype: 'captain',  title: 'Walk them through how everything connects',             desc: 'They need to understand the full system before they can contribute to it.' },
+    ]
+  },
+  {
+    heading: 'When you receive sharp critical feedback...',
+    prompt: '"My instinct when someone critiques my work directly is to..."',
+    insight: 'Response to feedback is one of the strongest signals of long-term growth trajectory.',
+    options: [
+      { archetype: 'driver',   title: 'Extract what is actionable and move on',              desc: 'I process quickly and redirect energy toward fixing it.' },
+      { archetype: 'explorer', title: 'Dig into the assumption being challenged',             desc: 'Critical feedback often reveals something I had not considered.' },
+      { archetype: 'crusader', title: 'Reflect on how the relationship might be affected',   desc: 'Feedback is never just about the work — it is about trust too.' },
+      { archetype: 'captain',  title: 'Map the feedback into a broader pattern',              desc: 'One piece of feedback is a data point. I look for the trend.' },
+    ]
+  },
+  {
+    heading: 'Your ideal work environment...',
+    prompt: '"The environment where I do my best work looks like..."',
+    insight: 'Environmental fit explains 22% of variance in individual contribution quality.',
+    options: [
+      { archetype: 'driver',   title: 'Fast-moving, with clear goals and ownership',         desc: 'I want to know what winning looks like and be empowered to get there.' },
+      { archetype: 'explorer', title: 'Open and exploratory, with room to experiment',       desc: 'Give me a problem, a whiteboard, and the freedom to roam.' },
+      { archetype: 'crusader', title: 'Collaborative, safe, and deeply mission-driven',      desc: 'I do my best work when I believe in the team as much as the goal.' },
+      { archetype: 'captain',  title: 'Structured, with clear processes and accountability', desc: 'Clarity of process unlocks my ability to think strategically.' },
+    ]
+  },
+  {
+    heading: 'When you hit a major obstacle...',
+    prompt: '"My natural response to a significant blocker is to..."',
+    insight: 'Obstacle response patterns reveal whether someone optimizes for velocity, learning, cohesion, or resilience.',
+    options: [
+      { archetype: 'driver',   title: 'Find a workaround and keep pushing forward',      desc: 'I do not wait for the perfect solution. I find the fastest viable path.' },
+      { archetype: 'explorer', title: 'Reframe it as a signal pointing somewhere new',   desc: 'Blockers are usually telling you something important.' },
+      { archetype: 'crusader', title: 'Rally the team to face it together',              desc: 'Hard moments are when team cohesion matters most.' },
+      { archetype: 'captain',  title: 'Pause and reassess the full system',              desc: 'I need to understand what this obstacle reveals about our structure.' },
+    ]
+  },
+  {
+    heading: 'The work that energizes you most...',
+    prompt: '"At the end of a great workday, I am most likely to have..."',
+    insight: 'Intrinsic motivation alignment predicts sustained performance better than any extrinsic incentive.',
+    options: [
+      { archetype: 'driver',   title: 'Shipped something and seen measurable results',     desc: 'There is nothing like seeing numbers move because of what I built.' },
+      { archetype: 'explorer', title: 'Researched a problem I did not understand before',  desc: 'Learning something genuinely new is the best fuel I know.' },
+      { archetype: 'crusader', title: 'Helped someone on the team get unstuck',            desc: 'Enabling others to do their best work is the highest leverage.' },
+      { archetype: 'captain',  title: 'Designed a system that solves a class of problems', desc: 'I want the work to outlast me and scale beyond what I can do alone.' },
+    ]
+  },
+  {
+    heading: 'In a heated team disagreement...',
+    prompt: '"When the team cannot agree on a direction, I tend to..."',
+    insight: 'Conflict navigation style determines whether disagreement erodes or strengthens team trust.',
+    options: [
+      { archetype: 'driver',   title: 'State my position clearly and push for a decision',      desc: 'Prolonged indecision costs more than a slightly imperfect choice.' },
+      { archetype: 'explorer', title: 'Reframe the debate as a shared learning opportunity',    desc: 'Usually disagreements reveal that we are answering different questions.' },
+      { archetype: 'crusader', title: 'Make sure every voice is heard before we move',          desc: 'I will not commit to a path if someone important still feels unseen.' },
+      { archetype: 'captain',  title: 'Lay out the tradeoffs objectively for the group',        desc: 'Emotions run hot — a clear framework can get us back to the facts.' },
+    ]
+  },
+  {
+    heading: 'After a big project wraps up...',
+    prompt: '"When a major project finishes, my first instinct is to..."',
+    insight: 'Post-project behavior is the clearest window into someone\'s core operating mode.',
+    options: [
+      { archetype: 'driver',   title: 'Start planning the next milestone immediately',             desc: 'Momentum is everything. Resting too long lets the team lose its edge.' },
+      { archetype: 'explorer', title: 'Reflect on what surprised me during the journey',           desc: 'The unexpected discoveries are where the real value lives.' },
+      { archetype: 'crusader', title: 'Thank the team and make sure everyone feels celebrated',    desc: 'The people who shipped this deserve to feel the win before we move on.' },
+      { archetype: 'captain',  title: 'Document lessons learned and codify what worked',           desc: 'Good process compounds. I want to make the next project structurally better.' },
+    ]
+  },
+];
+
+const ARCHETYPES = {
+  driver:   { name: 'The Driver',   icon: '🚀', color: '#854F0B', bg: '#FAEEDA', tagClass: 'tag-driver',   label: 'Core Execution' },
+  explorer: { name: 'The Explorer', icon: '🧭', color: '#0C447C', bg: '#E6F1FB', tagClass: 'tag-explorer', label: 'Innovation Engine' },
+  crusader: { name: 'The Crusader', icon: '🛡️', color: '#A32D2D', bg: '#FCEBEB', tagClass: 'tag-crusader', label: 'Cultural Anchor' },
+  captain:  { name: 'The Captain',  icon: '⛵', color: '#085041', bg: '#E1F5EE', tagClass: 'tag-captain',  label: 'Strategic Lead' },
+};
+
+const PILOT_INSIGHTS = {
+  driver:   ['You lead with action — getting things moving before others have finished thinking.', 'Your bias toward execution creates real momentum for the team.', 'You are emerging as someone who measures success by what ships.'],
+  explorer: ['You lead with curiosity — you need to understand before you can commit.', 'Your pattern-seeking mind spots connections others miss entirely.', 'You are emerging as someone who makes the team think differently.'],
+  crusader: ['You lead with empathy — the health of the team shapes every decision you make.', 'Your instinct to bring people along creates lasting psychological safety.', 'You are emerging as the team\'s ethical and cultural compass.'],
+  captain:  ['You lead with systems — you see the whole board before making a move.', 'Your appetite for structure helps the team scale without losing coherence.', 'You are emerging as someone who builds things meant to last.'],
+};
+
+const COMBO_INSIGHTS = {
+  'driver-explorer':   'You balance velocity with curiosity — you ship fast and learn fast. Watch for moments where iteration replaces deep thinking.',
+  'driver-crusader':   'You push hard and care deeply about your people. The challenge is channeling urgency without creating pressure that erodes trust.',
+  'driver-captain':    'You combine execution speed with systems thinking — a rare and powerful combination for scaling teams.',
+  'explorer-crusader': 'You are a creative force who never loses sight of the human element. You make teams feel safe to take real creative risks.',
+  'explorer-captain':  'You balance creative exploration with long-horizon thinking. You are the type who discovers the future and builds the map to get there.',
+  'crusader-captain':  'You build culture and systems in equal measure. Your teams tend to be both psychologically safe and operationally excellent.',
+};
+
+function getScores() {
+  const counts = { driver: 0, explorer: 0, crusader: 0, captain: 0 };
+  Object.values(qAnswers).forEach(a => { if (a) counts[a]++; });
+  const total = Object.values(counts).reduce((s, v) => s + v, 0);
+  if (total === 0) return { driver: 0, explorer: 0, crusader: 0, captain: 0 };
+  return Object.fromEntries(Object.entries(counts).map(([k, v]) => [k, Math.round(v / total * 100)]));
+}
+
+function getPrimary() {
+  const scores = getScores();
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  return sorted[0][0];
+}
+
+function getSecondary() {
+  const scores = getScores();
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  return sorted.length > 1 ? sorted[1][0] : null;
+}
+
+function getPilotMessage() {
+  const answered = Object.keys(qAnswers).length;
+  if (answered === 0) return 'Answer a few questions and I will start building your profile.';
+  const p = getPrimary();
+  const msgs = PILOT_INSIGHTS[p];
+  return msgs[Math.min(Math.floor(answered / 3), msgs.length - 1)];
+}
+
+function navigate(page) {
+  currentPage = page;
+  render();
+}
+
+function qSelectAnswer(archetypeKey) {
+  qAnswers[qStep] = archetypeKey;
+  render();
+  // brief delay then auto-advance
+  setTimeout(() => {
+    if (qStep < QUESTIONS.length - 1) {
+      qStep++;
+      render();
+    } else {
+      qShowResults = true;
+      render();
+    }
+  }, 420);
+}
+
+function qGoTo(step) {
+  qStep = step;
+  qShowResults = false;
+  render();
+}
+
+function qReset() {
+  qAnswers = {};
+  qStep = 0;
+  qShowResults = false;
+  render();
+}
+
+function render() {
+  const root = document.getElementById('app-root');
+  const pages = {
+    dashboard: renderDashboard,
+    archetypes: renderTeamDynamics,
+    dac: renderDAC,
+    onboarding: renderQuestionnaire,
+    settings: renderSettings,
+  };
+  root.innerHTML = pages[currentPage]();
+  root.className = 'page-enter';
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const activeNav = document.getElementById('nav-' + currentPage);
+  if (activeNav) activeNav.classList.add('active');
+}
+
+// =================== QUESTIONNAIRE ===================
+function renderQuestionnaire() {
+  if (qShowResults) return renderResults();
+
+  const q = QUESTIONS[qStep];
+  const answeredKey = qAnswers[qStep] || null;
+  const scores = getScores();
+  const answeredCount = Object.keys(qAnswers).length;
+  const progressPct = Math.round((answeredCount / QUESTIONS.length) * 100);
+
+  // Step dots
+  const dots = QUESTIONS.map((_, i) => {
+    const isDone = i in qAnswers;
+    const isCurrent = i === qStep;
+    let style = 'width:8px;height:8px;border-radius:50%;cursor:pointer;transition:all 0.2s;';
+    if (isCurrent) style += 'background:var(--teal-800);transform:scale(1.3);';
+    else if (isDone) style += 'background:var(--teal-400,#5DCAA5);';
+    else style += 'background:var(--gray-300);';
+    return '<div style="' + style + '" onclick="qGoTo(' + i + ')"></div>';
+  }).join('');
+
+  // Options
+  const opts = q.options.map(o => {
+    const isSelected = answeredKey === o.archetype;
+    const arch = ARCHETYPES[o.archetype];
+    const selectedStyle = isSelected
+      ? 'border-color:' + arch.color + ';background:' + arch.bg + ';'
+      : '';
+    return '<div class="q-option" style="' + selectedStyle + 'cursor:pointer;" onclick="qSelectAnswer(\'' + o.archetype + '\')">'
+      + '<div class="q-radio" style="' + (isSelected ? 'border-color:' + arch.color + ';' : '') + '">'
+      + (isSelected ? '<div class="q-radio-dot" style="background:' + arch.color + ';"></div>' : '')
+      + '</div>'
+      + '<div style="flex:1;">'
+      + '<div class="q-opt-title" style="' + (isSelected ? 'color:' + arch.color + ';font-weight:600;' : '') + '">' + o.title + '</div>'
+      + '<div class="q-opt-desc">' + o.desc + '</div>'
+      + '</div>'
+      + (isSelected ? '<span style="font-size:18px;">' + arch.icon + '</span>' : '')
+      + '</div>';
+  }).join('');
+
+  // Score bars (right panel)
+  const scoreBars = Object.entries(ARCHETYPES).map(([key, arch]) => {
+    const pct = scores[key] || 0;
+    const isLeading = getPrimary() === key && answeredCount > 0;
+    return '<div style="margin-bottom:14px;">'
+      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">'
+      + '<div style="display:flex;align-items:center;gap:7px;">'
+      + '<span style="font-size:14px;">' + arch.icon + '</span>'
+      + '<span style="font-size:13px;font-weight:' + (isLeading ? '600' : '400') + ';color:' + (isLeading ? arch.color : 'var(--gray-700)') + ';">' + arch.name + '</span>'
+      + (isLeading && answeredCount > 0 ? '<span style="font-size:10px;background:' + arch.bg + ';color:' + arch.color + ';padding:1px 7px;border-radius:10px;font-weight:600;">LEADING</span>' : '')
+      + '</div>'
+      + '<span style="font-size:12px;font-weight:600;color:' + (pct > 0 ? arch.color : 'var(--gray-400)') + ';">' + pct + '%</span>'
+      + '</div>'
+      + '<div style="height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden;">'
+      + '<div style="height:100%;width:' + pct + '%;background:' + arch.color + ';border-radius:3px;transition:width 0.5s ease;opacity:' + (pct > 0 ? '1' : '0.3') + ';"></div>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  return '<div style="background:var(--white);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;padding:0 2rem;height:56px;gap:1.5rem;position:sticky;top:0;z-index:50;">'
+    + '<div class="topbar-title" style="font-size:15px;white-space:nowrap;">Onboarding Questionnaire</div>'
+    + '<div style="font-size:12.5px;color:var(--gray-500);white-space:nowrap;">Step ' + (qStep + 1) + ' of ' + QUESTIONS.length + ' · Behavioral Insight</div>'
+    + '<div class="topbar-nav"><button class="topbar-link active">Questionnaire</button><button class="topbar-link" onclick="navigate(\'dac\')">DAC Dashboard</button><button class="topbar-link" onclick="navigate(\'dashboard\')">Archetypes</button></div>'
+    + '<div class="topbar-right"><button class="icon-btn">🔔</button><div class="avatar">AX</div></div>'
+    + '</div>'
+
+    + '<div style="display:grid;grid-template-columns:1fr 340px;gap:0;min-height:calc(100vh - 56px);">'
+
+    // ── LEFT PANEL ────────────────────────────────────
+    + '<div style="padding:2rem 2rem 2rem 2rem;border-right:1px solid var(--gray-200);">'
+
+    // Progress
+    + '<div style="margin-bottom:1.75rem;">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
+    + '<span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);">Profile Completion</span>'
+    + '<span style="font-size:12.5px;font-weight:600;color:var(--gray-700);">' + progressPct + '%</span>'
+    + '</div>'
+    + '<div class="progress-bar-track"><div class="progress-bar-fill" style="width:' + progressPct + '%"></div></div>'
+    + '<div style="display:flex;gap:6px;margin-top:10px;align-items:center;">' + dots + '</div>'
+    + '</div>'
+
+    // Question
+    + '<h1 style="font-family:var(--font-serif);font-size:30px;line-height:1.25;color:var(--gray-900);margin-bottom:0.5rem;">' + q.heading + '</h1>'
+    + '<p style="font-size:13.5px;color:var(--gray-500);font-style:italic;margin-bottom:1.5rem;">' + q.prompt + '</p>'
+
+    + opts
+
+    // Nav
+    + '<div style="display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;">'
+    + '<button class="btn-outline" onclick="if(qStep>0){qStep--;render()}" style="' + (qStep === 0 ? 'opacity:0.4;pointer-events:none;' : '') + '">← Previous</button>'
+    + '<span style="font-size:12px;color:var(--gray-400);">Click an answer to continue</span>'
+    + '<button class="btn-primary" onclick="if(Object.keys(qAnswers).length===QUESTIONS.length){qShowResults=true;render()}" style="' + (answeredCount < QUESTIONS.length ? 'opacity:0.5;' : '') + '">See Results →</button>'
+    + '</div>'
+
+    // Insight strip
+    + '<div style="margin-top:1.5rem;background:var(--teal-50);border-radius:var(--radius-md);padding:0.9rem 1.1rem;display:flex;gap:0.75rem;align-items:flex-start;">'
+    + '<span style="font-size:16px;margin-top:1px;">💡</span>'
+    + '<div><div style="font-size:12px;font-weight:600;color:var(--teal-800);margin-bottom:3px;">Growth Insight</div>'
+    + '<div style="font-size:12.5px;color:var(--teal-700);">' + q.insight + '</div></div>'
+    + '</div>'
+
+    + '</div>'
+
+    // ── RIGHT PANEL ───────────────────────────────────
+    + '<div style="padding:2rem 1.5rem;background:var(--gray-50);display:flex;flex-direction:column;gap:1.25rem;">'
+
+    // Score panel
+    + '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;">'
+    + '<div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:1rem;">Your Emerging Profile</div>'
+    + scoreBars
+    + (answeredCount === 0 ? '<div style="text-align:center;padding:0.5rem 0;font-size:12.5px;color:var(--gray-400);">Answer questions to see your profile take shape.</div>' : '')
+    + '</div>'
+
+    // Growth Pilot
+    + '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;">'
+    + '<div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">'
+    + '<div style="width:28px;height:28px;border-radius:50%;background:var(--teal-800);display:flex;align-items:center;justify-content:center;font-size:13px;">🤖</div>'
+    + '<div style="font-size:13px;font-weight:600;color:var(--gray-800);">Growth Pilot</div>'
+    + '</div>'
+    + '<div style="font-size:13px;color:var(--gray-600);line-height:1.6;">' + getPilotMessage() + '</div>'
+    + '</div>'
+
+    // Answered questions summary
+    + (answeredCount > 0 ? '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.25rem;">'
+    + '<div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem;">' + answeredCount + ' of ' + QUESTIONS.length + ' Answered</div>'
+    + Object.entries(qAnswers).map(([idx, arch]) => {
+        const a = ARCHETYPES[arch];
+        return '<div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:6px;cursor:pointer;" onclick="qGoTo(' + idx + ')">'
+          + '<span style="font-size:11px;">' + a.icon + '</span>'
+          + '<span style="font-size:12px;color:var(--gray-600);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Q' + (parseInt(idx)+1) + ': ' + QUESTIONS[idx].heading + '</span>'
+          + '<span style="font-size:10.5px;background:' + a.bg + ';color:' + a.color + ';padding:1px 7px;border-radius:10px;font-weight:500;">' + a.name.replace('The ','') + '</span>'
+          + '</div>';
+      }).join('')
+    + '</div>' : '')
+
+    + '</div>' // end right panel
+    + '</div>'; // end grid
+}
+
+// =================== RESULTS ===================
+function renderResults() {
+  const scores = getScores();
+  const primary = getPrimary();
+  const secondary = getSecondary();
+  const pArch = ARCHETYPES[primary];
+  const sArch = secondary ? ARCHETYPES[secondary] : null;
+  const comboKey = [primary, secondary].sort().join('-');
+  const comboInsight = COMBO_INSIGHTS[comboKey] || null;
+
+  const sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  const integrationTips = {
+    driver:   'Give them a high-visibility project with clear KPIs from day one. They will need a strong Captain or Crusader counterpart to balance speed with care.',
+    explorer: 'Pair them with a Driver or Captain to move their ideas toward execution. Allow unstructured exploration time — constraining Explorers too early kills their value.',
+    crusader: 'Introduce them to team norms, history, and interpersonal dynamics immediately. Their effectiveness depends on genuine understanding of the team\'s culture.',
+    captain:  'Brief them on the full system — org structure, dependencies, strategic priorities — before assigning ownership. They scale fastest with the full map.',
+  };
+
+  return '<div style="background:var(--white);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;padding:0 2rem;height:56px;gap:1.5rem;position:sticky;top:0;z-index:50;">'
+    + '<div class="topbar-title" style="font-size:15px;">Onboarding Questionnaire</div>'
+    + '<span class="badge badge-teal">Assessment Complete</span>'
+    + '<div class="topbar-nav"><button class="topbar-link active">Questionnaire</button><button class="topbar-link" onclick="navigate(\'dac\')">DAC Dashboard</button><button class="topbar-link" onclick="navigate(\'dashboard\')">Archetypes</button></div>'
+    + '<div class="topbar-right"><button class="icon-btn">🔔</button><div class="avatar">AX</div></div>'
+    + '</div>'
+
+    + '<div style="max-width:900px;padding:2.5rem 2rem;">'
+
+    // Hero result
+    + '<div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;margin-bottom:2rem;">'
+    + '<div>'
+    + '<div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.5rem;">Your Primary Archetype</div>'
+    + '<h1 style="font-family:var(--font-serif);font-size:52px;line-height:1.1;color:var(--gray-900);margin-bottom:0.5rem;">' + pArch.name + '</h1>'
+    + '<div style="display:inline-flex;align-items:center;gap:6px;background:' + pArch.bg + ';color:' + pArch.color + ';padding:5px 14px;border-radius:20px;font-size:12.5px;font-weight:600;margin-bottom:1rem;">'
+    + pArch.icon + ' ' + pArch.label
+    + '</div>'
+    + (comboInsight && sArch ? '<p style="font-size:14px;color:var(--gray-600);line-height:1.7;max-width:480px;">' + comboInsight + '</p>' : '')
+    + '</div>'
+    + '<div style="width:100px;height:100px;border-radius:50%;background:' + pArch.bg + ';display:flex;align-items:center;justify-content:center;font-size:48px;">' + pArch.icon + '</div>'
+    + '</div>'
+
+    // Score breakdown
+    + '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1.5rem;">'
+    + '<div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:1rem;">Full Archetype Breakdown</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">'
+    + sortedScores.map(([key, pct]) => {
+        const arch = ARCHETYPES[key];
+        const isPrimary = key === primary;
+        return '<div style="' + (isPrimary ? 'grid-column:1/-1;' : '') + '">'
+          + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">'
+          + '<div style="display:flex;align-items:center;gap:8px;">'
+          + '<span style="font-size:16px;">' + arch.icon + '</span>'
+          + '<span style="font-size:14px;font-weight:' + (isPrimary ? '600' : '400') + ';color:' + (isPrimary ? arch.color : 'var(--gray-700)') + ';">' + arch.name + '</span>'
+          + (isPrimary ? '<span style="font-size:10.5px;background:' + arch.bg + ';color:' + arch.color + ';padding:2px 8px;border-radius:10px;font-weight:600;">PRIMARY</span>' : '')
+          + '</div>'
+          + '<span style="font-size:16px;font-weight:700;color:' + arch.color + ';">' + pct + '%</span>'
+          + '</div>'
+          + '<div style="height:' + (isPrimary ? '10' : '7') + 'px;background:var(--gray-100);border-radius:5px;overflow:hidden;">'
+          + '<div style="height:100%;width:' + pct + '%;background:' + arch.color + ';border-radius:5px;"></div>'
+          + '</div>'
+          + '</div>';
+      }).join('')
+    + '</div>'
+    + '</div>'
+
+    // Integration tip + actions
+    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.5rem;">'
+
+    + '<div style="background:' + pArch.bg + ';border-radius:var(--radius-lg);padding:1.5rem;">'
+    + '<div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:' + pArch.color + ';margin-bottom:0.5rem;">Integration Tip for Your Manager</div>'
+    + '<p style="font-size:13.5px;color:var(--gray-700);line-height:1.7;">' + integrationTips[primary] + '</p>'
+    + '</div>'
+
+    + '<div style="background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.5rem;">'
+    + '<div style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem;">Next Steps</div>'
+    + '<div style="display:flex;flex-direction:column;gap:0.75rem;">'
+    + '<button class="btn-primary" onclick="navigate(\'dac\')" style="width:100%;justify-content:center;">View Your DAC Dashboard →</button>'
+    + '<button class="btn-outline" onclick="navigate(\'archetypes\')" style="width:100%;justify-content:center;">Explore All Archetypes</button>'
+    + '<button class="btn-outline" onclick="qReset()" style="width:100%;justify-content:center;border-color:var(--gray-200);color:var(--gray-500);">Retake Assessment</button>'
+    + '</div>'
+    + '</div>'
+
+    + '</div>'
+
+    // Growth Pilot summary
+    + '<div style="background:var(--teal-800);border-radius:var(--radius-lg);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">'
+    + '<div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🤖</div>'
+    + '<div>'
+    + '<div style="font-size:13px;font-weight:600;color:var(--white);margin-bottom:0.4rem;">Growth Pilot</div>'
+    + '<div style="font-size:13.5px;color:var(--teal-100);line-height:1.7;">Your profile has been shared with your team\'s DAC. '
+    + (sArch ? 'As a <strong style="color:var(--white);">' + pArch.name + '</strong> with strong <strong style="color:var(--white);">' + sArch.name + '</strong> traits, '
+      : 'As a <strong style="color:var(--white);">' + pArch.name + '</strong>, ')
+    + 'your onboarding roadmap has been personalized. Your manager will receive integration recommendations tailored to your archetype blend.</div>'
+    + '</div>'
+    + '</div>'
+
+    + '</div>'; // end page
+}
+
+// =================== DAC DASHBOARD ===================
+function renderDAC() {
+  return `
+    <div style="background: var(--white); border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; padding: 0 2rem; height: 56px; gap: 1.5rem; position: sticky; top: 0; z-index: 50;">
+      <div class="topbar-title">DAC Dashboard</div>
+      <div class="topbar-nav">
+        <button class="topbar-link" onclick="navigate('onboarding')">Questionnaire</button>
+        <button class="topbar-link active">DAC Dashboard</button>
+        <button class="topbar-link" onclick="navigate('archetypes')">Archetypes</button>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search insights...
+        </div>
+        <button class="icon-btn">🔔</button>
+        <div class="avatar" style="background: var(--teal-500);">AX</div>
+      </div>
+    </div>
+
+    <div class="page-full" style="padding: 2rem;">
+      <div class="section-label" style="margin-bottom: 0.4rem;">NEW HIRE ONBOARDING</div>
+      <div class="dac-header">
+        <div>
+          <h1 class="dac-heading">Welcome to the<br>Living Ledger.</h1>
+          <p class="dac-subheading">This dashboard provides a sentient overview of your team's collective pulse. Explore the shared Direction, operational Alignment, and cultural Commitment that drives our growth.</p>
+        </div>
+        <div class="sentiment-card">
+          <div class="sentiment-label">Team Sentiment Score</div>
+          <div class="sentiment-score">88%</div>
+          <div class="progress-bar-track" style="margin-top: 8px; width: 120px; margin-left: auto;"><div class="progress-bar-fill" style="width: 88%;"></div></div>
+          <div class="sentiment-delta">+4% from last quarter</div>
+        </div>
+      </div>
+
+      <div class="dac-grid">
+        <!-- Direction -->
+        <div class="card">
+          <div class="dac-section-header">
+            <div class="dac-section-icon" style="background: var(--teal-50);">🎯</div>
+            <div class="dac-section-title">Direction</div>
+          </div>
+          <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 1rem;">Shared understanding of team priorities and what success looks like over the next 90 days.</p>
+
+          <div class="priority-card">
+            <div class="priority-card-header">
+              <div class="priority-name">Q3 Market Expansion</div>
+              <span class="badge badge-amber">Priority #1</span>
+            </div>
+            <div class="priority-desc">Scaling the sentient workspace protocol to EMEA partners with a focus on data ethicality and architectural precision.</div>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <div class="avatar-stack">
+                <div class="avatar-sm" style="background: var(--teal-500);">MR</div>
+                <div class="avatar-sm" style="background: #378ADD;">JC</div>
+                <div class="avatar-count">+4</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="metrics-row">
+            <div class="metric-box">
+              <div class="metric-label">Success Metric</div>
+              <div class="metric-value">95% Adoption</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-label">Team Alignment</div>
+              <div class="metric-value" style="color: var(--teal-700);">Strong</div>
+            </div>
+          </div>
+
+          <button class="link-btn">View Strategic Roadmap →</button>
+        </div>
+
+        <!-- Commitment -->
+        <div class="card">
+          <div class="dac-section-header">
+            <div class="dac-section-icon" style="background: #E6F1FB;">🤝</div>
+            <div class="dac-section-title">Commitment</div>
+          </div>
+          <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 1rem;">Measurement of collective trust and psychological safety within the immediate workgroup.</p>
+
+          <div class="trust-ring-wrap" style="margin: 0 auto 1rem; width: 140px; height: 140px;">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle cx="70" cy="70" r="55" fill="none" stroke="var(--gray-200)" stroke-width="12"/>
+              <circle cx="70" cy="70" r="55" fill="none" stroke="var(--teal-600)" stroke-width="12"
+                stroke-dasharray="${2 * Math.PI * 55 * 0.82} ${2 * Math.PI * 55 * 0.18}"
+                stroke-dashoffset="${2 * Math.PI * 55 * 0.25}"
+                stroke-linecap="round"/>
+            </svg>
+            <div style="position: absolute; display: flex; flex-direction: column; align-items: center; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+              <div class="trust-number">8.2</div>
+              <div class="trust-sub">Trust Level</div>
+            </div>
+          </div>
+
+          <div class="recent-context">
+            <div class="context-label">Recent Team Context</div>
+            <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
+              <span style="font-size: 16px;">📢</span>
+              <div class="context-quote">"High levels of transparency reported during the last restructure phase."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alignment -->
+      <div class="card alignment-card">
+        <div class="dac-section-header">
+          <div class="dac-section-icon" style="background: var(--teal-50);">✦</div>
+          <div class="dac-section-title">Alignment</div>
+          <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+            <span class="badge badge-gray">Process-Centric</span>
+            <span class="badge badge-teal">Interdependent</span>
+          </div>
+        </div>
+
+        <div class="workflow-grid">
+          <div>
+            <div class="section-label" style="margin-bottom: 0.75rem;">Workflow Interdependencies</div>
+            <div class="workflow-item" style="border-color: var(--teal-500); background: var(--teal-50); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 0.75rem;">
+              <div class="workflow-route">Architecture → Design</div>
+              <div class="workflow-wait">Wait time: 2.4 Days</div>
+            </div>
+            <div class="workflow-item" style="border-color: #E24B4A; background: #FCEBEB; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
+              <div class="workflow-route" style="color: #A32D2D;">Design → QA</div>
+              <div class="workflow-wait">Wait time: 0.8 Days</div>
+            </div>
+          </div>
+          <div>
+            <div class="section-label" style="margin-bottom: 0.75rem;">Who To Go To</div>
+            <div class="who-grid">
+              <div class="who-card">
+                <div class="who-avatar" style="background: var(--teal-600);">MC</div>
+                <div>
+                  <div class="who-name">Marcus Chen</div>
+                  <div class="who-role">System Architecture</div>
+                  <span style="font-size: 11px;"><span class="status-dot status-available"></span>Available</span>
+                </div>
+              </div>
+              <div class="who-card">
+                <div class="who-avatar" style="background: #E24B4A;">ER</div>
+                <div>
+                  <div class="who-name">Elena Rodriguez</div>
+                  <div class="who-role">Product Alignment</div>
+                  <span style="font-size: 11px;"><span class="status-dot status-meeting"></span>In Meeting</span>
+                </div>
+              </div>
+              <div class="who-card">
+                <div class="who-avatar" style="background: #378ADD;">SP</div>
+                <div>
+                  <div class="who-name">Sam Peterson</div>
+                  <div class="who-role">Data Insights</div>
+                  <span style="font-size: 11px;"><span class="status-dot status-available"></span>Available</span>
+                </div>
+              </div>
+              <div class="who-card" style="cursor: pointer;" onclick="navigate('archetypes')">
+                <div class="who-avatar" style="background: var(--gray-300);">?</div>
+                <div>
+                  <div class="who-name">View Team Directory</div>
+                  <div class="who-role">24 Core Members</div>
+                  <span style="font-size: 11px; color: var(--teal-600);">→ Open</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dac-footer">
+        <span class="live-dot"></span>
+        Last synced: Today at 09:42 AM
+        <span style="margin-left: auto; display: flex; gap: 1.5rem;">
+          <button class="link-btn" style="margin-top: 0; font-size: 12px; color: var(--gray-400);">Privacy Policy</button>
+          <button class="link-btn" style="margin-top: 0; font-size: 12px; color: var(--gray-400);">Workspace Guidelines</button>
+          <button class="link-btn" style="margin-top: 0; font-size: 12px; color: var(--gray-400);">Export PDF</button>
+        </span>
+      </div>
+    </div>`;
+}
+
+// =================== TEAM DYNAMICS ===================
+function renderTeamDynamics() {
+  return `
+    <div style="background: var(--white); border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; padding: 0 2rem; height: 56px; gap: 1.5rem; position: sticky; top: 0; z-index: 50;">
+      <div class="topbar-title">Team Dynamics</div>
+      <div class="topbar-nav">
+        <button class="topbar-link active">Questionnaire</button>
+        <button class="topbar-link" onclick="navigate('dac')">DAC Dashboard</button>
+        <button class="topbar-link" onclick="navigate('dashboard')">Archetypes</button>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Search team...
+        </div>
+        <button class="icon-btn">🔔</button>
+        <div class="avatar">AX</div>
+      </div>
+    </div>
+
+    <div class="page-full" style="padding: 2rem;">
+      <div class="section-label" style="margin-bottom: 0.4rem;">Intelligent Overview</div>
+      <div class="td-header">
+        <div>
+          <h1 class="td-heading">Harmony is the outcome of<br><span>aligned archetypes.</span></h1>
+        </div>
+        <div class="spike-card" style="min-width: 260px;">
+          <div style="font-size: 20px; margin-bottom: 0.5rem;">📈</div>
+          <div class="spike-title">Sentiment Spike</div>
+          <div class="spike-body">The introduction of two "Explorers" has shifted the team's risk appetite by 15%. Suggestions include fostering open innovation sessions to channel this creative energy.</div>
+          <button class="btn-white">View Integration Strategy</button>
+        </div>
+      </div>
+
+      <!-- Psych Safety Card -->
+      <div class="card td-psych-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <div style="font-size: 13px; color: var(--gray-500);">Team Psychological Safety</div>
+          <span class="badge badge-teal">+12% this month</span>
+        </div>
+        <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem;">
+          <div class="psych-score">8.4</div>
+          <span style="font-size: 20px; color: var(--gray-500);">/10</span>
+        </div>
+        <div class="psych-bars">
+          <div class="psych-bar-item">
+            <div class="psych-bar-label">Trust Index</div>
+            <div class="psych-bar-track"><div class="psych-bar-fill" style="width: 84%; background: var(--teal-500);"></div></div>
+          </div>
+          <div class="psych-bar-item">
+            <div class="psych-bar-label">Risk Tolerance</div>
+            <div class="psych-bar-track"><div class="psych-bar-fill" style="width: 67%; background: var(--amber-500);"></div></div>
+          </div>
+          <div class="psych-bar-item">
+            <div class="psych-bar-label">Conflict Resolution</div>
+            <div class="psych-bar-track"><div class="psych-bar-fill" style="width: 78%; background: var(--blue-500);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Onboarding -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <div style="font-size: 18px; font-weight: 600;">Recent Onboarding</div>
+        <button class="link-btn" style="margin-top: 0;" onclick="navigate('dashboard')">Archetype Directory →</button>
+      </div>
+
+      <div class="onboard-grid" style="grid-template-columns: 1fr 1fr auto;">
+        <div class="onboard-card">
+          <div class="member-header">
+            <div class="who-avatar" style="background: #E24B4A; width: 44px; height: 44px; font-size: 14px;">AR</div>
+            <div>
+              <div class="member-name">Alex Rivera</div>
+              <div class="member-role">Product Designer · 4 days in</div>
+            </div>
+            <span class="badge badge-blue" style="margin-left: auto;">NEW</span>
+          </div>
+          <span class="archetype-tag tag-explorer">🧭 The Explorer</span>
+          <div class="member-quote">"Always seeking the 'why' behind the 'what'. Thrives on discovery and unmapped problems."</div>
+          <div class="tip-label">Integration Tip</div>
+          <div class="integration-tip">🧭 Pair with a 'Guardian' to balance creative expansion with tactical execution.</div>
+        </div>
+
+        <div class="onboard-card">
+          <div class="member-header">
+            <div class="who-avatar" style="background: var(--blue-500); width: 44px; height: 44px; font-size: 14px;">JC</div>
+            <div>
+              <div class="member-name">Jordan Chen</div>
+              <div class="member-role">Tech Lead · 12 days in</div>
+            </div>
+          </div>
+          <span class="archetype-tag tag-driver">⚡ The Driver</span>
+          <div class="member-quote">"Results-oriented and fast-paced. Motivated by milestones and clear metrics."</div>
+          <div class="tip-label">Integration Tip</div>
+          <div class="integration-tip">🎯 Provide immediate ownership of a high-impact project with measurable KPIs.</div>
+        </div>
+
+        <div class="balance-matrix">
+          <div class="balance-title">Team Balance Matrix</div>
+          <svg class="matrix-diagram" viewBox="0 0 180 160">
+            <line x1="90" y1="20" x2="90" y2="140" stroke="var(--gray-200)" stroke-width="1"/>
+            <line x1="20" y1="80" x2="160" y2="80" stroke="var(--gray-200)" stroke-width="1"/>
+            <text x="90" y="14" text-anchor="middle" fill="var(--gray-400)" font-size="9" font-family="DM Sans, sans-serif">VISION</text>
+            <text x="90" y="154" text-anchor="middle" fill="var(--gray-400)" font-size="9" font-family="DM Sans, sans-serif">PROCESS</text>
+            <text x="12" y="83" text-anchor="middle" fill="var(--gray-400)" font-size="9" font-family="DM Sans, sans-serif">I</text>
+            <text x="168" y="83" text-anchor="middle" fill="var(--gray-400)" font-size="9" font-family="DM Sans, sans-serif">E</text>
+            <polygon points="90,35 120,80 90,125 60,80" fill="none" stroke="var(--gray-300)" stroke-width="1.5"/>
+            <circle cx="105" cy="62" r="5" fill="var(--teal-500)" opacity="0.8"/>
+            <circle cx="95" cy="90" r="4" fill="var(--blue-500)" opacity="0.8"/>
+            <circle cx="78" cy="75" r="4" fill="#E24B4A" opacity="0.8"/>
+          </svg>
+          <div class="balance-note">Your team is currently skewed toward <strong>Vision</strong>. Consider hiring for <strong>Process</strong> roles next.</div>
+        </div>
+      </div>
+
+      <!-- Full Roster -->
+      <div class="roster-section">
+        <div class="roster-header">
+          <div>
+            <div class="roster-title">Full Roster Dynamics</div>
+            <div class="roster-sub">14 Members Analyzed</div>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn-outline" style="padding: 0.4rem 0.75rem; font-size: 12px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="7" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="7" y2="18"/></svg>
+            </button>
+            <button class="btn-outline" style="padding: 0.4rem 0.75rem; font-size: 12px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <table class="roster-table">
+            <thead>
+              <tr>
+                <th>Team Member</th>
+                <th>Archetype</th>
+                <th>Integration Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[
+                {initials:'SC', name:'Sarah Connor', dept:'Engineering', archetype:'The Architect', tag:'tag-architect', color:'#3C3489', sync:100, status:'OPTIMIZED', statusClass:'status-optimized'},
+                {initials:'MW', name:'Marcus Wright', dept:'Strategy', archetype:'The Catalyst', tag:'tag-catalyst', color:'#854F0B', sync:65, status:'65% Sync', statusClass:'status-sync'},
+                {initials:'KL', name:'Kyle Lawson', dept:'Marketing', archetype:'The Guardian', tag:'tag-guardian', color:'#3B6D11', sync:88, status:'STABLE', statusClass:'status-stable'},
+                {initials:'AR', name:'Alex Rivera', dept:'Product Design', archetype:'The Explorer', tag:'tag-explorer', color:'var(--blue-800)', sync:45, status:'45% Sync', statusClass:'status-sync'},
+                {initials:'JC', name:'Jordan Chen', dept:'Engineering', archetype:'The Driver', tag:'tag-driver', color:'#854F0B', sync:72, status:'72% Sync', statusClass:'status-sync'},
+              ].map(m => `
+                <tr>
+                  <td>
+                    <div class="member-cell">
+                      <div class="member-initials" style="background: ${m.color};">${m.initials}</div>
+                      <div>
+                        <div style="font-weight: 500;">${m.name}</div>
+                        <div style="font-size: 11.5px; color: var(--gray-500);">${m.dept}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><span class="archetype-tag ${m.tag}" style="font-size: 11.5px;">${m.archetype}</span></td>
+                  <td>
+                    <div class="sync-bar">
+                      <div class="sync-track"><div class="sync-fill" style="width: ${m.sync}%"></div></div>
+                      <span class="status-pill ${m.statusClass}">${m.status}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <button class="btn-outline" style="padding: 4px 10px; font-size: 12px;">···</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <button class="download-btn">⬇ Download Full Team Audit (PDF)</button>
+      </div>
+    </div>`;
+}
+
+// =================== ARCHETYPES (Human Ledger) ===================
+function renderDashboard() {
+  const archetypes = [
+    {
+      name: 'The Driver',
+      label: 'Core Execution',
+      labelColor: '#854F0B',
+      labelBg: '#FAEEDA',
+      icon: '🚀',
+      iconBg: '#FAEEDA',
+      desc: 'High-velocity executors focused on milestone completion and tangible output. They turn strategy into action with relentless precision.',
+      strengths: ['Rapid Iteration', 'Goal Precision'],
+      friction: 'May overlook qualitative nuances in pursuit of deadlines; potential for burnout and communication silos.',
+      tool: 'Automated milestone tracking with sentiment check-ins.',
+    },
+    {
+      name: 'The Explorer',
+      label: 'Innovation Engine',
+      labelColor: '#0C447C',
+      labelBg: '#E6F1FB',
+      icon: '🧭',
+      iconBg: '#E6F1FB',
+      desc: 'Curious visionaries who thrive in ambiguity. They identify hidden patterns and lateral opportunities that others miss.',
+      strengths: ['Creative Synthesis', 'Adaptability'],
+      friction: 'Difficulty with linear documentation; can pivot too early before results are fully realized.',
+      tool: 'Dynamic knowledge maps and low-friction ideation captures.',
+    },
+    {
+      name: 'The Crusader',
+      label: 'Cultural Anchor',
+      labelColor: '#A32D2D',
+      labelBg: '#FCEBEB',
+      icon: '🛡️',
+      iconBg: '#FCEBEB',
+      desc: 'Mission-driven advocates who prioritize team cohesion and ethical alignment. They are the heartbeat of the culture.',
+      strengths: ['Empathy Mapping', 'Values Alignment'],
+      friction: 'Resistant to data-only decisions; potential for emotional fatigue in high-stress pivots.',
+      tool: 'Bias-detection AI and collaborative mood-tracking dashboards.',
+    },
+    {
+      name: 'The Captain',
+      label: 'Strategic Lead',
+      labelColor: '#085041',
+      labelBg: '#E1F5EE',
+      icon: '⛵',
+      iconBg: '#E1F5EE',
+      desc: 'Architects of scale. They manage complex dependencies and ensure long-term stability across multiple workstreams.',
+      strengths: ['Systems Thinking', 'Risk Mitigation'],
+      friction: 'Can become a bottleneck for small iterations; may struggle with radical, "unproven" innovations.',
+      tool: 'Predictive resource modeling and cross-functional dependency maps.',
+    },
+  ];
+
+  function renderCard(a) {
+    const lc = typeof a.labelColor === 'function' ? a.labelColor() : a.labelColor;
+    const lb = typeof a.labelBg === 'function' ? a.labelBg() : a.labelBg;
+    return `
+      <div class="arch-card">
+        <div class="arch-card-header">
+          <div class="dac-section-icon" style="background: ${a.iconBg}; font-size: 22px;">${a.icon}</div>
+          <div>
+            <div class="arch-type-label">${a.label.toUpperCase()}</div>
+          </div>
+        </div>
+        <div class="arch-name">${a.name}</div>
+        <div class="arch-desc">${a.desc}</div>
+        <div class="arch-detail-label">Strengths</div>
+        <div class="arch-strength-tags">
+          ${a.strengths.map(s => `<span class="badge badge-gray">${s}</span>`).join('')}
+        </div>
+        <div class="arch-detail-label" style="color: var(--red-500);">Friction Points</div>
+        <div class="friction-text">${a.friction}</div>
+        <div class="tool-intervention">
+          <div style="font-size: 16px;">✦</div>
+          <div>
+            <div class="tool-label">Tool Intervention</div>
+            <div class="tool-desc">${a.tool}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  return `
+    <div style="background: var(--white); border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; padding: 0 2rem; height: 56px; gap: 1.5rem; position: sticky; top: 0; z-index: 50;">
+      <div class="topbar-title">Archetypes</div>
+      <div class="topbar-nav">
+        <button class="topbar-link" onclick="navigate('onboarding')">Questionnaire</button>
+        <button class="topbar-link" onclick="navigate('dac')">DAC Dashboard</button>
+        <button class="topbar-link active">Archetypes</button>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn">🔔</button>
+        <div class="avatar">AX</div>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="arch-hero">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;">
+          <div>
+            <h1 class="arch-heading">The Human<br><span>Ledger.</span></h1>
+            <p class="arch-subheading">Identify the cognitive patterns that define your team's velocity. We categorize collaboration through four sentient archetypes, each balancing analytical precision with human intuition.</p>
+          </div>
+          <div>
+            <button class="badge badge-blue arch-ai-badge">⚡ AI-Augmented Workforce Analysis</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-grid">
+        ${archetypes.map(renderCard).join('')}
+      </div>
+
+      <div class="intersection-card">
+        <div>
+          <h2 class="intersection-heading">The Intersection</h2>
+          <p class="intersection-desc">True sentient workspaces don't just collect these types; they orchestrate the friction between them into generative growth.</p>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="btn-primary" onclick="navigate('archetypes')">View Team Balance</button>
+            <button class="btn-outline">Download PDF</button>
+          </div>
+        </div>
+        <div style="width: 200px; height: 160px; display: flex; align-items: center; justify-content: center;">
+          <svg width="180" height="160" viewBox="0 0 180 160">
+            <defs>
+              <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#1D9E75" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#1D9E75" stop-opacity="0.05"/>
+              </radialGradient>
+              <radialGradient id="rg2" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#378ADD" stop-opacity="0.4"/>
+                <stop offset="100%" stop-color="#378ADD" stop-opacity="0.05"/>
+              </radialGradient>
+            </defs>
+            <circle cx="70" cy="65" r="55" fill="url(#rg1)" stroke="#1D9E75" stroke-width="1" stroke-opacity="0.3"/>
+            <circle cx="110" cy="65" r="55" fill="url(#rg2)" stroke="#378ADD" stroke-width="1" stroke-opacity="0.3"/>
+            <circle cx="90" cy="100" r="45" fill="none" stroke="#E24B4A" stroke-width="1" stroke-opacity="0.3"/>
+            <text x="90" y="68" text-anchor="middle" fill="var(--teal-800)" font-size="8" font-family="DM Sans, sans-serif">INTERSECTION</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="arch-footer">
+        <div class="arch-footer-stat">
+          <div class="arch-footer-num">1,420</div>
+          <div class="arch-footer-label">Total Mapped</div>
+        </div>
+        <div class="arch-footer-stat">
+          <div class="arch-footer-num" style="color: var(--teal-600);">+12.4%</div>
+          <div class="arch-footer-label">Growth Index</div>
+        </div>
+        <div class="arch-footer-note">Generated by Built for Growth Intelligence · Last updated 14m ago</div>
+      </div>
+    </div>`;
+}
+
+// =================== SETTINGS (BONUS) ===================
+function renderSettings() {
+  return `
+    <div style="background: var(--white); border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; padding: 0 2rem; height: 56px; gap: 1.5rem; position: sticky; top: 0; z-index: 50;">
+      <div class="topbar-title">Settings</div>
+      <div class="topbar-right" style="margin-left: auto;">
+        <div class="avatar">AX</div>
+      </div>
+    </div>
+    <div class="page">
+      <h1 style="font-family: var(--font-serif); font-size: 32px; margin-bottom: 0.5rem;">Settings</h1>
+      <p style="color: var(--gray-500); margin-bottom: 2rem;">Manage your workspace preferences and privacy controls.</p>
+
+      <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 560px;">
+        ${[
+          {title: 'Archetype Visibility', desc: 'Control who can see your archetype profile on the team directory', toggle: true, on: true},
+          {title: 'Growth Pilot Suggestions', desc: 'Allow AI to suggest archetype-based workflow tips', toggle: true, on: true},
+          {title: 'Anonymous Data Sharing', desc: 'Help improve team health benchmarks (fully anonymized)', toggle: true, on: false},
+          {title: 'Email Digest', desc: 'Receive weekly team dynamics summary to your inbox', toggle: true, on: true},
+        ].map(s => `
+          <div class="card-sm" style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 14px; font-weight: 500; margin-bottom: 2px;">${s.title}</div>
+              <div style="font-size: 12.5px; color: var(--gray-500);">${s.desc}</div>
+            </div>
+            <div style="
+              width: 40px; height: 22px; border-radius: 11px;
+              background: ${s.on ? 'var(--teal-600)' : 'var(--gray-300)'};
+              cursor: pointer; position: relative; flex-shrink: 0;
+              transition: background 0.2s;
+            ">
+              <div style="
+                width: 18px; height: 18px; border-radius: 50%;
+                background: white; position: absolute; top: 2px;
+                left: ${s.on ? '20px' : '2px'};
+                transition: left 0.2s;
+              "></div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+        <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 1rem;">Danger Zone</h3>
+        <button class="btn-outline" style="border-color: #E24B4A; color: #A32D2D;">Delete My Profile Data</button>
+      </div>
+    </div>`;
+}
+
+render();
+</script>
+</body>
+</html>

@@ -987,8 +987,38 @@ function qReset() {
   render();
 }
 
+let showSplash = true;
+
+function dismissSplash(goTo) {
+  if (goTo) currentPage = goTo;
+  const overlay = document.getElementById('splash-overlay');
+  if (!overlay) return;
+
+  // Detach from app-root and move to body so it survives render()
+  overlay.style.pointerEvents = 'none';
+  document.body.appendChild(overlay);
+
+  // Render destination page underneath the overlay
+  showSplash = false;
+  render();
+
+  // Soft gradient at the bottom of the curtain so the lift edge isn't hard
+  const fadeEdge = document.createElement('div');
+  fadeEdge.style.cssText = 'position:absolute;bottom:0;left:0;right:0;height:100px;'
+    + 'background:linear-gradient(to bottom,transparent,#062d22);pointer-events:none;';
+  overlay.appendChild(fadeEdge);
+
+  // Double-rAF: destination page paints, then we slide the curtain up
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    overlay.style.transition = 'transform 0.85s cubic-bezier(0.76,0,0.24,1)';
+    overlay.style.transform   = 'translateY(-100%)';
+    setTimeout(() => overlay.remove(), 950);
+  }));
+}
+
 function render() {
   const root = document.getElementById('app-root');
+  if (showSplash) { root.innerHTML = renderSplash(); return; }
   const pages = {
     dashboard: renderDashboard,
     archetypes: renderTeamDynamics,
@@ -1001,6 +1031,103 @@ function render() {
   document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
   const activeNav = document.getElementById('nav-' + currentPage);
   if (activeNav) activeNav.classList.add('active');
+}
+
+// =================== SPLASH SCREEN ===================
+function renderSplash() {
+  return '<div id="splash-overlay" style="'
+    + 'position:fixed;inset:0;background:#062d22;'
+    + 'display:flex;align-items:center;justify-content:center;'
+    + 'z-index:9999;transition:opacity 0.65s cubic-bezier(0.4,0,0.2,1),transform 0.65s cubic-bezier(0.4,0,0.2,1);overflow:hidden;">'
+    + '<style>'
+    + '@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}'
+    + '@keyframes fadeIn{from{opacity:0}to{opacity:1}}'
+    + '@keyframes floatIn{from{opacity:0;transform:translateY(16px) scale(0.88)}to{opacity:1;transform:translateY(0) scale(1)}}'
+    + '@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}'
+    + '@keyframes lineDraw{from{width:0}to{width:100%}}'
+    + '@keyframes orbMove{0%{transform:translate(0,0)}33%{transform:translate(30px,-20px)}66%{transform:translate(-20px,25px)}100%{transform:translate(0,0)}}'
+    + '</style>'
+
+    // Ambient orbs
+    + '<div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;">'
+    + '<div style="position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(29,158,117,0.18) 0%,transparent 70%);top:-120px;left:-120px;animation:orbMove 14s ease-in-out infinite;"></div>'
+    + '<div style="position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(55,138,221,0.1) 0%,transparent 70%);bottom:-80px;right:-80px;animation:orbMove 18s ease-in-out infinite reverse;"></div>'
+    + '</div>'
+
+    // Content
+    + '<div style="text-align:center;max-width:640px;padding:2rem;position:relative;">'
+
+    // Wordmark pill
+    + '<div style="animation:fadeIn 0.6s ease 0.1s both;">'
+    + '<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:6px 16px;margin-bottom:2.5rem;">'
+    + '<div style="width:6px;height:6px;border-radius:50%;background:#1D9E75;animation:pulse 2s ease-in-out infinite;"></div>'
+    + '<span style="font-size:12px;font-weight:500;letter-spacing:0.07em;color:rgba(255,255,255,0.65);">BUILT FOR GROWTH &nbsp;·&nbsp; THE SENTIENT WORKSPACE</span>'
+    + '</div></div>'
+
+    // Archetype icon cluster
+    + '<div style="display:flex;justify-content:center;gap:1.25rem;margin-bottom:2.5rem;">'
+    + [
+        {icon:'🚀',label:'Driver',  delay:'0.35s'},
+        {icon:'🧭',label:'Explorer',delay:'0.6s'},
+        {icon:'🛡️',label:'Crusader',delay:'0.85s'},
+        {icon:'⛵',label:'Captain', delay:'1.1s'},
+      ].map(a =>
+        '<div style="animation:floatIn 0.6s cubic-bezier(0.34,1.56,0.64,1) ' + a.delay + ' both;text-align:center;">'
+        + '<div style="width:64px;height:64px;border-radius:18px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:8px;">' + a.icon + '</div>'
+        + '<div style="font-size:11px;font-weight:500;color:rgba(255,255,255,0.4);letter-spacing:0.04em;">' + a.label + '</div>'
+        + '</div>'
+      ).join('')
+    + '</div>'
+
+    // Connector line
+    + '<div style="margin:-2rem auto 2.25rem;width:340px;height:1px;overflow:hidden;animation:fadeIn 0.3s ease 1.3s both;">'
+    + '<div style="height:1px;background:linear-gradient(to right,transparent,rgba(29,158,117,0.6),rgba(55,138,221,0.4),rgba(226,75,74,0.3),transparent);animation:lineDraw 0.9s ease 1.3s both;"></div>'
+    + '</div>'
+
+    // Headline
+    + '<h1 style="font-family:var(--font-serif);font-size:48px;line-height:1.15;color:#fff;margin-bottom:1.25rem;animation:fadeUp 0.7s ease 1.05s both;">'
+    + 'Set up your custom<br><span style="color:#5DCAA5;">archetypes</span> and plan.'
+    + '</h1>'
+
+    // Subtext
+    + '<p style="font-size:15px;color:rgba(255,255,255,0.5);line-height:1.8;max-width:420px;margin:0 auto 2.5rem;animation:fadeUp 0.7s ease 1.25s both;">'
+    + 'A ten-question behavioral assessment that maps your cognitive style to your team\'s living playbook — so day one feels like week four.'
+    + '</p>'
+
+    // Steps
+    + '<div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:2.5rem;animation:fadeUp 0.6s ease 1.4s both;">'
+    + [
+        {n:'01',label:'Answer 10 questions'},
+        {n:'02',label:'Get your archetype'},
+        {n:'03',label:'Unlock your DAC plan'},
+      ].map((s,i) =>
+        (i > 0 ? '<div style="width:20px;height:1px;background:rgba(255,255,255,0.12);"></div>' : '')
+        + '<div style="text-align:left;">'
+        + '<div style="font-size:10px;font-weight:700;letter-spacing:0.12em;color:#1D9E75;margin-bottom:3px;">' + s.n + '</div>'
+        + '<div style="font-size:12.5px;color:rgba(255,255,255,0.55);white-space:nowrap;">' + s.label + '</div>'
+        + '</div>'
+      ).join('')
+    + '</div>'
+
+    // CTA
+    + '<div style="animation:fadeUp 0.6s ease 1.55s both;">'
+    + '<button onclick="dismissSplash();navigate(\'onboarding\');" '
+    + 'onmouseover="this.style.background=\'#0F6E56\';this.style.transform=\'translateY(-2px)\'" '
+    + 'onmouseout="this.style.background=\'#1D9E75\';this.style.transform=\'translateY(0)\'" '
+    + 'style="display:inline-flex;align-items:center;gap:10px;background:#1D9E75;color:#fff;border:none;border-radius:10px;padding:0.9rem 2.25rem;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background 0.2s,transform 0.15s;box-shadow:0 0 0 1px rgba(29,158,117,0.4),0 8px 24px rgba(29,158,117,0.22);">'
+    + 'Begin Assessment'
+    + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>'
+    + '</button>'
+    + '<div style="margin-top:1.25rem;">'
+    + '<button onclick="dismissSplash();" '
+    + 'onmouseover="this.style.color=\'rgba(255,255,255,0.6)\'" '
+    + 'onmouseout="this.style.color=\'rgba(255,255,255,0.3)\'" '
+    + 'style="background:none;border:none;font-size:12.5px;color:rgba(255,255,255,0.3);cursor:pointer;font-family:var(--font);transition:color 0.2s;">'
+    + 'Skip to dashboard →'
+    + '</button>'
+    + '</div></div>'
+
+    + '</div></div>'; // content, overlay
 }
 
 // =================== QUESTIONNAIRE ===================

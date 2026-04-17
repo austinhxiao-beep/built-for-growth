@@ -1370,182 +1370,110 @@ function renderResults() {
 
 // =================== DAC DASHBOARD ===================
 function renderDAC() {
-  return `
-    <div style="background: var(--white); border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; padding: 0 2rem; height: 56px; gap: 1.5rem; position: sticky; top: 0; z-index: 50;">
-      <div class="topbar-title">DAC Dashboard</div>
-      <div class="topbar-nav">
-        <button class="topbar-link" onclick="navigate('onboarding')">Questionnaire</button>
-        <button class="topbar-link active">DAC Dashboard</button>
-        <button class="topbar-link" onclick="navigate('archetypes')">Archetypes</button>
-      </div>
-      <div class="topbar-right">
-        <div class="search-box">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Search insights...
-        </div>
-        <button class="icon-btn">🔔</button>
-        <div class="avatar" style="background: var(--teal-500);">AX</div>
-      </div>
-    </div>
-
-    <div class="page-full" style="padding: 2rem;">
-      <div class="section-label" style="margin-bottom: 0.4rem;">NEW HIRE ONBOARDING</div>
-      <div class="dac-header">
-        <div>
-          <h1 class="dac-heading">Welcome to the<br>Living Ledger.</h1>
-          <p class="dac-subheading">This dashboard gives you an instant view of your team's operating system — shared direction, real workflow alignment, and the cultural commitment that makes momentum possible from day one.</p>
-        </div>
-        <div class="sentiment-card">
-          <div class="sentiment-label">Team Sentiment Score</div>
-          <div class="sentiment-score">88%</div>
-          <div class="progress-bar-track" style="margin-top: 8px; width: 120px; margin-left: auto;"><div class="progress-bar-fill" style="width: 88%;"></div></div>
-          <div class="sentiment-delta">+4% from last quarter</div>
-        </div>
-      </div>
-
-      <div class="dac-grid">
-        <!-- Direction -->
-        <div class="card">
-          <div class="dac-section-header">
-            <div class="dac-section-icon" style="background: var(--teal-50);">🎯</div>
-            <div class="dac-section-title">Direction</div>
-          </div>
-          <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 1rem;">Shared understanding of team priorities and what success looks like over the next 90 days.</p>
-
-          <div class="priority-card">
-            <div class="priority-card-header">
-              <div class="priority-name">Q3 Market Expansion</div>
-              <span class="badge badge-amber">Priority #1</span>
-            </div>
-            <div class="priority-desc">Scaling the sentient workspace protocol to EMEA partners with a focus on data ethicality and architectural precision.</div>
-            <div style="display: flex; align-items: center; gap: 0.75rem;">
-              <div class="avatar-stack">
-                <div class="avatar-sm" style="background: var(--teal-500);">MR</div>
-                <div class="avatar-sm" style="background: #378ADD;">JC</div>
-                <div class="avatar-count">+4</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="metrics-row">
-            <div class="metric-box">
-              <div class="metric-label">Success Metric</div>
-              <div class="metric-value">95% Adoption</div>
-            </div>
-            <div class="metric-box">
-              <div class="metric-label">Team Alignment</div>
-              <div class="metric-value" style="color: var(--teal-700);">Strong</div>
-            </div>
-          </div>
-
-          <button class="link-btn">View Strategic Roadmap →</button>
-        </div>
-
-        <!-- Commitment -->
-        <div class="card">
-          <div class="dac-section-header">
-            <div class="dac-section-icon" style="background: #E6F1FB;">🤝</div>
-            <div class="dac-section-title">Commitment</div>
-          </div>
-          <p style="font-size: 13px; color: var(--gray-500); margin-bottom: 1rem;">Measurement of collective trust and psychological safety within the immediate workgroup.</p>
-
-          <div class="trust-ring-wrap" style="margin: 0 auto 1rem; width: 140px; height: 140px;">
-            <svg width="140" height="140" viewBox="0 0 140 140">
-              <circle cx="70" cy="70" r="55" fill="none" stroke="var(--gray-200)" stroke-width="12"/>
-              <circle cx="70" cy="70" r="55" fill="none" stroke="var(--teal-600)" stroke-width="12"
-                stroke-dasharray="${2 * Math.PI * 55 * 0.82} ${2 * Math.PI * 55 * 0.18}"
-                stroke-dashoffset="${2 * Math.PI * 55 * 0.25}"
-                stroke-linecap="round"/>
-            </svg>
-            <div style="position: absolute; display: flex; flex-direction: column; align-items: center; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-              <div class="trust-number">8.2</div>
-              <div class="trust-sub">Trust Level</div>
-            </div>
-          </div>
-
-          <div class="recent-context">
-            <div class="context-label">Recent Team Context</div>
-            <div style="display: flex; gap: 0.5rem; align-items: flex-start;">
-              <span style="font-size: 16px;">📢</span>
-              <div class="context-quote">"High levels of transparency reported during the last restructure phase."</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Alignment -->
-      <div class="card alignment-card">
-        <div class="dac-section-header">
-          <div class="dac-section-icon" style="background: var(--teal-50);">✦</div>
-          <div class="dac-section-title">Alignment</div>
-          <div style="margin-left: auto; display: flex; gap: 0.5rem;">
-            <span class="badge badge-gray">Process-Centric</span>
-            <span class="badge badge-teal">Interdependent</span>
-          </div>
-        </div>
-
-        <div class="workflow-grid">
-          <div>
-            <div class="section-label" style="margin-bottom: 0.75rem;">Workflow Interdependencies</div>
-            <div class="workflow-item" style="border-color: var(--teal-500); background: var(--teal-50); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 0.75rem;">
-              <div class="workflow-route">Architecture → Design</div>
-              <div class="workflow-wait">Wait time: 2.4 Days</div>
-            </div>
-            <div class="workflow-item" style="border-color: #E24B4A; background: #FCEBEB; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;">
-              <div class="workflow-route" style="color: #A32D2D;">Design → QA</div>
-              <div class="workflow-wait">Wait time: 0.8 Days</div>
-            </div>
-          </div>
-          <div>
-            <div class="section-label" style="margin-bottom: 0.75rem;">Who To Go To</div>
-            <div class="who-grid">
-              <div class="who-card">
-                <div class="who-avatar" style="background: var(--teal-600);">MC</div>
-                <div>
-                  <div class="who-name">Arjun Mehta</div>
-                  <div class="who-role">Strategy Lead</div>
-                  <span style="font-size: 11px;"><span class="status-dot status-available"></span>Available</span>
-                </div>
-              </div>
-              <div class="who-card">
-                <div class="who-avatar" style="background: #E24B4A;">ER</div>
-                <div>
-                  <div class="who-name">Priya Kapoor</div>
-                  <div class="who-role">Partnerships</div>
-                  <span style="font-size: 11px;"><span class="status-dot status-meeting"></span>In Meeting</span>
-                </div>
-              </div>
-              <div class="who-card">
-                <div class="who-avatar" style="background: #378ADD;">SP</div>
-                <div>
-                  <div class="who-name">Rahul Nair</div>
-                  <div class="who-role">Analytics</div>
-                  <span style="font-size: 11px;"><span class="status-dot status-available"></span>Available</span>
-                </div>
-              </div>
-              <div class="who-card" style="cursor: pointer;" onclick="navigate('archetypes')">
-                <div class="who-avatar" style="background: var(--gray-300);">?</div>
-                <div>
-                  <div class="who-name">View Team Directory</div>
-                  <div class="who-role">24 Core Members</div>
-                  <span style="font-size: 11px; color: var(--teal-600);">→ Open</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="dac-footer">
-        <span class="live-dot"></span>
-        Last synced: Today at 09:42 AM
-        <span style="margin-left: auto; display: flex; gap: 1.5rem;">
-          <button class="link-btn" style="margin-top: 0; font-size: 12px; color: var(--gray-400);">Privacy Policy</button>
-          <button class="link-btn" style="margin-top: 0; font-size: 12px; color: var(--gray-400);">Workspace Guidelines</button>
-          <button class="link-btn" style="margin-top: 0; font-size: 12px; color: var(--gray-400);">Export PDF</button>
-        </span>
-      </div>
-    </div>`;
+  const html = [
+    '<style>',
+    '@keyframes dac-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}',
+    '@keyframes dac-right{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:translateX(0)}}',
+    '@keyframes dac-left{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}',
+    '@keyframes ring-draw{from{stroke-dashoffset:432.0}to{stroke-dashoffset:86.4}}',
+    '@keyframes bar-grow{from{width:0}to{width:88%}}',
+    '@keyframes num-pop{0%{opacity:0;transform:scale(0.75)}70%{transform:scale(1.1)}100%{opacity:1;transform:scale(1)}}',
+    '@keyframes dot-pulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}50%{box-shadow:0 0 0 6px rgba(34,197,94,0)}}',
+    '.da{animation-fill-mode:both;animation-timing-function:cubic-bezier(0.22,1,0.36,1);}',
+    '</style>',
+    '<div style="background:var(--white);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;padding:0 2rem;height:56px;gap:1.5rem;position:sticky;top:0;z-index:50;">',
+    '<div class="topbar-title">DAC Dashboard</div>',
+    '<div class="topbar-nav">',
+    '<button class="topbar-link" onclick="navigate(\'onboarding\')">Questionnaire</button>',
+    '<button class="topbar-link active">DAC Dashboard</button>',
+    '<button class="topbar-link" onclick="navigate(\'archetypes\')">Archetypes</button>',
+    '</div>',
+    '<div class="topbar-right">',
+    '<div class="search-box"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search insights...</div>',
+    '<button class="icon-btn">&#x1F514;</button>',
+    '<div class="avatar" style="background:var(--teal-500);">AX</div>',
+    '</div></div>',
+    '<div class="page-full" style="padding:2rem;">',
+    '<div class="section-label da" style="margin-bottom:0.4rem;animation:dac-up 0.5s 0.05s both;">NEW HIRE ONBOARDING</div>',
+    '<div class="dac-header">',
+    '<div class="da" style="animation:dac-up 0.55s 0.12s both;">',
+    '<h1 class="dac-heading">Welcome to the<br>Kinetic Dashboard.</h1>',
+    '<p class="dac-subheading">This dashboard gives you an instant view of your team&#39;s operating system &#8212; shared direction, real workflow alignment, and the cultural commitment that makes momentum possible from day one.</p>',
+    '</div>',
+    '<div class="sentiment-card da" style="animation:dac-right 0.55s 0.22s both;">',
+    '<div class="sentiment-label">Team Sentiment Score</div>',
+    '<div class="sentiment-score" style="animation:num-pop 0.5s 0.6s both;">88%</div>',
+    '<div class="progress-bar-track" style="margin-top:8px;width:120px;margin-left:auto;">',
+    '<div class="progress-bar-fill" style="animation:bar-grow 0.9s cubic-bezier(0.22,1,0.36,1) 0.65s both;"></div>',
+    '</div>',
+    '<div class="sentiment-delta" style="animation:dac-up 0.4s 0.95s both;">+4% from last quarter</div>',
+    '</div></div>',
+    '<div class="dac-grid">',
+    '<div class="card da" style="animation:dac-up 0.6s 0.28s both;">',
+    '<div class="dac-section-header"><div class="dac-section-icon" style="background:var(--teal-50);">&#x1F3AF;</div><div class="dac-section-title">Direction</div></div>',
+    '<p style="font-size:13px;color:var(--gray-500);margin-bottom:1rem;">Shared understanding of team priorities and what success looks like over the next 90 days.</p>',
+    '<div class="priority-card">',
+    '<div class="priority-card-header"><div class="priority-name">Q3 Market Expansion</div><span class="badge badge-amber">Priority #1</span></div>',
+    '<div class="priority-desc">Scaling the Kinetic protocol to EMEA partners with a focus on data ethicality and architectural precision.</div>',
+    '<div style="display:flex;align-items:center;gap:0.75rem;"><div class="avatar-stack"><div class="avatar-sm" style="background:var(--teal-500);">AM</div><div class="avatar-sm" style="background:#378ADD;">RN</div><div class="avatar-count">+4</div></div></div>',
+    '</div>',
+    '<div class="metrics-row da" style="animation:dac-up 0.5s 0.48s both;">',
+    '<div class="metric-box"><div class="metric-label">Success Metric</div><div class="metric-value">95% Adoption</div></div>',
+    '<div class="metric-box"><div class="metric-label">Team Alignment</div><div class="metric-value" style="color:var(--teal-700);">Strong</div></div>',
+    '</div>',
+    '<button class="link-btn">View Strategic Roadmap &#8594;</button>',
+    '</div>',
+    '<div class="card da" style="animation:dac-up 0.6s 0.38s both;">',
+    '<div class="dac-section-header"><div class="dac-section-icon" style="background:#E6F1FB;">&#x1F91D;</div><div class="dac-section-title">Commitment</div></div>',
+    '<p style="font-size:13px;color:var(--gray-500);margin-bottom:1rem;">Measurement of collective trust and psychological safety within the immediate workgroup.</p>',
+    '<div class="trust-ring-wrap" style="margin:0 auto 1rem;width:140px;height:140px;">',
+    '<svg width="140" height="140" viewBox="0 0 140 140" style="transform:rotate(-90deg);">',
+    '<circle cx="70" cy="70" r="55" fill="none" stroke="var(--gray-200)" stroke-width="12"/>',
+    '<circle cx="70" cy="70" r="55" fill="none" stroke="var(--teal-600)" stroke-width="12" stroke-dasharray="283.4 62.2" stroke-dashoffset="432.0" stroke-linecap="round" style="animation:ring-draw 1.1s cubic-bezier(0.22,1,0.36,1) 0.55s both;"/>',
+    '</svg>',
+    '<div style="position:absolute;display:flex;flex-direction:column;align-items:center;top:50%;left:50%;transform:translate(-50%,-50%);">',
+    '<div class="trust-number" style="animation:num-pop 0.5s 0.95s both;">8.2</div>',
+    '<div class="trust-sub">Trust Level</div>',
+    '</div></div>',
+    '<div class="recent-context da" style="animation:dac-up 0.5s 1s both;">',
+    '<div class="context-label">Recent Team Context</div>',
+    '<div style="display:flex;gap:0.5rem;align-items:flex-start;"><span style="font-size:16px;">&#x1F4E2;</span>',
+    '<div class="context-quote">&#8220;High levels of transparency reported during the last restructure phase.&#8221;</div></div>',
+    '</div>',
+    '</div>',
+    '</div>',
+    '<div class="card alignment-card da" style="animation:dac-up 0.6s 0.5s both;">',
+    '<div class="dac-section-header">',
+    '<div class="dac-section-icon" style="background:var(--teal-50);">&#x2736;</div>',
+    '<div class="dac-section-title">Alignment</div>',
+    '<div style="margin-left:auto;display:flex;gap:0.5rem;"><span class="badge badge-gray">Process-Centric</span><span class="badge badge-teal">Interdependent</span></div>',
+    '</div>',
+    '<div class="workflow-grid">',
+    '<div>',
+    '<div class="section-label" style="margin-bottom:0.75rem;">Workflow Interdependencies</div>',
+    '<div class="workflow-item da" style="border-color:var(--teal-500);background:var(--teal-50);border-radius:0 var(--radius-sm) var(--radius-sm) 0;margin-bottom:0.75rem;animation:dac-left 0.5s 0.62s both;"><div class="workflow-route">Architecture &#8594; Design</div><div class="workflow-wait">Wait time: 2.4 Days</div></div>',
+    '<div class="workflow-item da" style="border-color:#E24B4A;background:#FCEBEB;border-radius:0 var(--radius-sm) var(--radius-sm) 0;animation:dac-left 0.5s 0.74s both;"><div class="workflow-route" style="color:#A32D2D;">Design &#8594; QA</div><div class="workflow-wait">Wait time: 0.8 Days</div></div>',
+    '</div>',
+    '<div>',
+    '<div class="section-label" style="margin-bottom:0.75rem;">Who To Go To</div>',
+    '<div class="who-grid">',
+    '<div class="who-card da" style="animation:dac-up 0.45s 0.65s both;"><div class="who-avatar" style="background:var(--teal-600);">AM</div><div><div class="who-name">Arjun Mehta</div><div class="who-role">Strategy Lead</div><span style="font-size:11px;"><span class="status-dot status-available" style="animation:dot-pulse 2s 1.2s infinite;"></span>Available</span></div></div>',
+    '<div class="who-card da" style="animation:dac-up 0.45s 0.73s both;"><div class="who-avatar" style="background:#E24B4A;">PK</div><div><div class="who-name">Priya Kapoor</div><div class="who-role">Partnerships</div><span style="font-size:11px;"><span class="status-dot status-meeting"></span>In Meeting</span></div></div>',
+    '<div class="who-card da" style="animation:dac-up 0.45s 0.81s both;"><div class="who-avatar" style="background:#378ADD;">RN</div><div><div class="who-name">Rahul Nair</div><div class="who-role">Analytics</div><span style="font-size:11px;"><span class="status-dot status-available" style="animation:dot-pulse 2s 1.4s infinite;"></span>Available</span></div></div>',
+    '<div class="who-card da" style="cursor:pointer;animation:dac-up 0.45s 0.89s both;" onclick="navigate(\'archetypes\')"><div class="who-avatar" style="background:var(--gray-300);">?</div><div><div class="who-name">View Team Directory</div><div class="who-role">24 Core Members</div><span style="font-size:11px;color:var(--teal-600);">&#8594; Open</span></div></div>',
+    '</div></div></div>',
+    '</div>',
+    '<div class="dac-footer da" style="animation:dac-up 0.5s 0.72s both;">',
+    '<span class="live-dot" style="animation:dot-pulse 2s 1s infinite;"></span>',
+    'Last synced: Today at 09:42 AM',
+    '<span style="margin-left:auto;display:flex;gap:1.5rem;">',
+    '<button class="link-btn" style="margin-top:0;font-size:12px;color:var(--gray-400);">Privacy Policy</button>',
+    '<button class="link-btn" style="margin-top:0;font-size:12px;color:var(--gray-400);">Workspace Guidelines</button>',
+    '<button class="link-btn" style="margin-top:0;font-size:12px;color:var(--gray-400);">Export PDF</button>',
+    '</span></div>',
+    '</div>',
+  ].join('');
+  return html;
 }
 
 // =================== TEAM DYNAMICS ===================

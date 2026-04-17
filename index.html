@@ -1026,6 +1026,7 @@ function render() {
     dac: renderDAC,
     onboarding: renderQuestionnaire,
     settings: renderSettings,
+    integration: renderIntegration,
   };
   root.innerHTML = pages[currentPage]();
   root.className = 'page-enter';
@@ -1507,7 +1508,7 @@ function renderTeamDynamics() {
           <div style="font-size: 20px; margin-bottom: 0.5rem;">📈</div>
           <div class="spike-title">Sentiment Spike</div>
           <div class="spike-body">David's Lifelong Learner profile is absorbing team context rapidly. Pairing him with Arjun (The Questioner) will accelerate alignment by 2–3 weeks based on similar past onboarding patterns.</div>
-          <button class="btn-white">View Integration Strategy</button>
+          <button class="btn-white" onclick="navigate('integration')">View Integration Strategy</button>
         </div>
       </div>
 
@@ -1846,6 +1847,272 @@ function renderDashboard() {
 
     </div>`;
 }
+
+// =================== INTEGRATION STRATEGY ===================
+function renderIntegration() {
+  const weeks = [
+    {
+      num: '01', label: 'Week 1', title: 'Absorb the Operating System',
+      color: '#085041', bg: '#E1F5EE',
+      owner: 'David + Arjun',
+      items: [
+        'Read all Q2 project post-mortems and decision logs',
+        'Shadow Arjun in two client and one internal strategy session',
+        'Map the informal workflow: who talks to whom before decisions get made',
+        'Identify one unspoken team norm per day — share in async Kinetic journal',
+      ],
+      dac: 'Direction',
+    },
+    {
+      num: '02', label: 'Week 2', title: 'Find Your First Contribution',
+      color: '#0C447C', bg: '#E6F1FB',
+      owner: 'David + Priya',
+      items: [
+        'Take ownership of one bounded deliverable with Priya as accountability partner',
+        'Run a "pre-mortem" on the deliverable — present risks to team before starting',
+        'Attend full team retrospective: listen first, contribute one observation',
+        'Calibrate expectations with Arjun: what does great work look like here?',
+      ],
+      dac: 'Alignment',
+    },
+    {
+      num: '04', label: 'Week 4', title: 'Build Relational Trust',
+      color: '#A32D2D', bg: '#FCEBEB',
+      owner: 'David + Full Team',
+      items: [
+        'One-on-one coffee with each team member — learn their friction points',
+        'Share a "working with me" document: how you learn, how you give feedback',
+        'Raise one substantive challenge in a team meeting — test psychological safety',
+        'Kinetic check-in: update archetype sync scores with team',
+      ],
+      dac: 'Commitment',
+    },
+    {
+      num: '08', label: 'Week 8', title: 'Demonstrate Independent Judgment',
+      color: '#854F0B', bg: '#FAEEDA',
+      owner: 'David (led)',
+      items: [
+        'Own a cross-functional workstream end-to-end',
+        'Lead one team retrospective session independently',
+        'Present a "what I\'ve learned about how we work" insight to the team',
+        'Kinetic DAC rescore: target 70%+ sync across all archetypes',
+      ],
+      dac: 'Direction',
+    },
+  ];
+
+  const pairings = [
+    {
+      with: 'Arjun Mehta', archetype: 'The Questioner', initials: 'AM',
+      color: '#0C447C', bg: '#E6F1FB',
+      synergy: 'Critical thinker meets knowledge seeker — Arjun surfaces what to question, David absorbs and maps the implications. High intellectual chemistry.',
+      risk: 'Arjun moves fast on critique; David may need time to process. Set a 24-hour reflection window before responding to challenges.',
+      priority: 'PRIMARY',
+    },
+    {
+      with: 'Priya Kapoor', archetype: 'The Scaler', initials: 'PK',
+      color: '#A32D2D', bg: '#FCEBEB',
+      synergy: 'Priya\'s team-first instinct creates a psychologically safe space for David to ask the "naive" questions that unlock real understanding.',
+      risk: 'Low friction, but Priya may absorb David\'s integration load. Ensure David is driving his own onboarding — not being carried.',
+      priority: 'SECONDARY',
+    },
+    {
+      with: 'Rahul Nair', archetype: 'The Agile Driver', initials: 'RN',
+      color: '#854F0B', bg: '#FAEEDA',
+      synergy: 'Rahul\'s output velocity will show David the team\'s execution standard. Working alongside Rahul makes the pace of "good" concrete rather than abstract.',
+      risk: 'Rahul ships fast and talks even faster. David should request explicit "why" explanations — Rahul may not offer them unprompted.',
+      priority: 'OBSERVE',
+    },
+  ];
+
+  const dac = [
+    {
+      icon: '🎯', title: 'Direction', color: '#085041', bg: '#E1F5EE',
+      headline: 'Ground truth from day one.',
+      body: 'Kinetic has surfaced the team\'s actual North Star from Q2 project data — not the official mission statement. David\'s onboarding starts here: understand what the team is actually optimizing for before contributing to it.',
+      actions: ['Read the Q3 strategic brief Arjun wrote for the EMEA partnership', 'Map the gap between the official roadmap and what the team ships each sprint', 'Ask Arjun: "What would make this quarter a failure?" — the answer is the real direction.'],
+    },
+    {
+      icon: '✦', title: 'Alignment', color: '#0C447C', bg: '#E6F1FB',
+      headline: 'The hidden playbook, made visible.',
+      body: 'The formal org chart shows David reporting to Arjun. The real collaboration graph shows Priya as the informal connector and Rahul as the execution anchor. David needs this map before he can navigate effectively.',
+      actions: ['Observe two full workflow cycles: Architecture → Design → QA', 'Identify the one person everyone checks with before a decision is "final"', 'Document one informal norm per day in the Kinetic journal for the first two weeks.'],
+    },
+    {
+      icon: '🤝', title: 'Commitment', color: '#A32D2D', bg: '#FCEBEB',
+      headline: 'Trust is earned through shared history.',
+      body: 'This team came through a restructure phase with high transparency scores (8.2 trust level). David enters into a team with real relational capital. His job is to honour that existing trust — not disrupt it — while building his own.',
+      actions: ['Ask Priya about the restructure: what held the team together?', 'Surface your own working style early — don\'t make the team reverse-engineer you', 'Raise your first real disagreement in Week 4, not Week 1.'],
+    },
+  ];
+
+  const weekDelay = ['0.72s','0.84s','0.96s','1.08s'];
+
+  return `
+    <style>
+      @keyframes is-up   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+      @keyframes is-left { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:translateX(0)} }
+      @keyframes is-right{ from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+      @keyframes is-scale{ from{opacity:0;transform:scale(0.92)} to{opacity:1;transform:scale(1)} }
+      @keyframes is-line { from{width:0} to{width:100%} }
+      @keyframes is-bar  { from{width:0} to{width:38%} }
+      @keyframes is-num  { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+      @keyframes is-pulse{ 0%,100%{box-shadow:0 0 0 0 rgba(8,80,65,0.35)} 50%{box-shadow:0 0 0 8px rgba(8,80,65,0)} }
+      .ia { animation-fill-mode:both; animation-timing-function:cubic-bezier(0.22,1,0.36,1); }
+    </style>
+
+    <!-- Topbar -->
+    <div style="background:var(--white);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;padding:0 2rem;height:56px;gap:1.5rem;position:sticky;top:0;z-index:50;">
+      <button onclick="navigate('archetypes')" style="display:flex;align-items:center;gap:6px;background:none;border:none;font-size:13px;color:var(--gray-500);cursor:pointer;font-family:var(--font);padding:0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Team Dynamics
+      </button>
+      <div style="width:1px;height:20px;background:var(--gray-200);"></div>
+      <div class="topbar-title">Integration Strategy</div>
+      <div class="topbar-nav">
+        <button class="topbar-link" onclick="navigate('onboarding')">Questionnaire</button>
+        <button class="topbar-link" onclick="navigate('dac')">DAC Dashboard</button>
+        <button class="topbar-link" onclick="navigate('dashboard')">Archetypes</button>
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn">🔔</button>
+        <div class="avatar">AX</div>
+      </div>
+    </div>
+
+    <div style="max-width:960px;padding:2rem;">
+
+      <!-- ── HERO ── -->
+      <div class="ia" style="animation:is-up 0.5s 0.06s both;margin-bottom:0.25rem;">
+        <div style="font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--gray-500);">PERSONALIZED ONBOARDING PLAN</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:flex-start;margin-bottom:2rem;">
+        <div>
+          <h1 class="ia" style="font-family:var(--font-serif);font-size:42px;line-height:1.15;color:var(--gray-900);margin-bottom:0.75rem;animation:is-up 0.55s 0.12s both;">
+            David Lee's<br>Integration Strategy.
+          </h1>
+          <p class="ia" style="font-size:14px;color:var(--gray-500);line-height:1.75;max-width:480px;animation:is-up 0.5s 0.22s both;">
+            Kinetic has synthesized David's Lifelong Learner profile against the team's existing archetype composition, shadow culture, and DAC framework to generate a personalised 8-week roadmap.
+          </p>
+          <!-- Separator line -->
+          <div class="ia" style="animation:is-line 0.7s 0.32s both;height:2px;background:linear-gradient(to right,#085041,transparent);border-radius:1px;margin-top:1rem;max-width:360px;"></div>
+        </div>
+
+        <!-- David's profile card -->
+        <div class="ia" style="animation:is-right 0.55s 0.26s both;background:var(--white);border:1px solid var(--gray-200);border-top:3px solid #085041;border-radius:var(--radius-lg);padding:1.25rem;min-width:220px;">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+            <div style="width:44px;height:44px;border-radius:50%;background:#085041;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--white);flex-shrink:0;">DL</div>
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--gray-900);">David Lee</div>
+              <div style="font-size:12px;color:var(--gray-500);">Product · Day 4</div>
+            </div>
+          </div>
+          <span style="display:inline-flex;align-items:center;gap:6px;background:#E1F5EE;color:#085041;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-bottom:1rem;">📚 The Lifelong Learner</span>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:5px;">Team Sync Score</div>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="flex:1;height:7px;background:var(--gray-100);border-radius:4px;overflow:hidden;">
+              <div style="height:100%;background:#085041;border-radius:4px;animation:is-bar 0.9s cubic-bezier(0.22,1,0.36,1) 0.7s both;"></div>
+            </div>
+            <div style="font-size:16px;font-weight:700;color:#085041;animation:is-num 0.4s 1s both;">38%</div>
+          </div>
+          <div style="font-size:11.5px;color:var(--gray-400);margin-top:4px;">Target: 75% by Week 8</div>
+        </div>
+      </div>
+
+      <!-- ── DAC PILLARS ── -->
+      <div class="ia" style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem;animation:is-up 0.4s 0.38s both;">DAC Framework · Personalised for David</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:2rem;">
+        ${dac.map((d, i) => `
+          <div class="ia" style="animation:is-up 0.55s ${(0.42 + i * 0.1).toFixed(2)}s both;background:var(--white);border:1px solid var(--gray-200);border-top:3px solid ${d.color};border-radius:var(--radius-lg);padding:1.25rem;">
+            <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.75rem;">
+              <div style="width:32px;height:32px;border-radius:8px;background:${d.bg};display:flex;align-items:center;justify-content:center;font-size:16px;">${d.icon}</div>
+              <div style="font-size:15px;font-weight:600;color:var(--gray-900);">${d.title}</div>
+            </div>
+            <div style="font-size:13px;font-weight:600;color:${d.color};margin-bottom:0.4rem;">${d.headline}</div>
+            <div style="font-size:12.5px;color:var(--gray-600);line-height:1.65;margin-bottom:0.85rem;">${d.body}</div>
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-400);margin-bottom:0.4rem;">Action Items</div>
+            ${d.actions.map(a => `<div style="display:flex;gap:6px;margin-bottom:5px;"><span style="color:${d.color};font-size:11px;margin-top:2px;flex-shrink:0;">▸</span><span style="font-size:12px;color:var(--gray-600);line-height:1.5;">${a}</span></div>`).join('')}
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- ── TEAM COMPATIBILITY ── -->
+      <div class="ia" style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem;animation:is-up 0.4s 0.62s both;">Archetype Compatibility Matrix</div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2rem;">
+        ${pairings.map((p, i) => `
+          <div class="ia" style="animation:is-left 0.5s ${(0.66 + i * 0.1).toFixed(2)}s both;background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;display:grid;grid-template-columns:auto 1fr 1fr auto;gap:1.25rem;align-items:center;">
+            <div style="display:flex;align-items:center;gap:0.75rem;min-width:160px;">
+              <div style="width:38px;height:38px;border-radius:50%;background:${p.color};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--white);flex-shrink:0;">${p.initials}</div>
+              <div>
+                <div style="font-size:13.5px;font-weight:500;color:var(--gray-900);">${p.with}</div>
+                <span style="font-size:11px;background:${p.bg};color:${p.color};padding:2px 8px;border-radius:10px;font-weight:500;">${p.archetype}</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--teal-600);margin-bottom:3px;">Synergy</div>
+              <div style="font-size:12.5px;color:var(--gray-600);line-height:1.5;">${p.synergy}</div>
+            </div>
+            <div>
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--red-500);margin-bottom:3px;">Watch For</div>
+              <div style="font-size:12.5px;color:var(--gray-600);line-height:1.5;">${p.risk}</div>
+            </div>
+            <div>
+              <span style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;padding:4px 10px;border-radius:20px;white-space:nowrap;${
+                p.priority === 'PRIMARY'   ? 'background:#E1F5EE;color:#085041;' :
+                p.priority === 'SECONDARY' ? 'background:#E6F1FB;color:#0C447C;' :
+                                             'background:var(--gray-100);color:var(--gray-500);'
+              }">${p.priority}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- ── WEEK-BY-WEEK ROADMAP ── -->
+      <div class="ia" style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem;animation:is-up 0.4s 0.9s both;">8-Week Roadmap</div>
+
+      <!-- Timeline connector -->
+      <div style="position:relative;margin-bottom:2rem;">
+        <div class="ia" style="position:absolute;top:28px;left:27px;right:0;height:2px;background:linear-gradient(to right,#085041 0%,#0C447C 33%,#A32D2D 66%,#854F0B 100%);animation:is-line 1s cubic-bezier(0.22,1,0.36,1) 1s both;border-radius:1px;z-index:0;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1rem;position:relative;z-index:1;">
+          ${weeks.map((w, i) => `
+            <div class="ia" style="animation:is-up 0.55s ${weekDelay[i]} both;">
+              <!-- Week number bubble -->
+              <div style="width:56px;height:56px;border-radius:50%;background:${w.color};display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;border:3px solid var(--white);box-shadow:0 0 0 2px ${w.color};${i===0?'animation:is-pulse 2.5s 2s infinite;':''}">
+                <span style="font-size:13px;font-weight:700;color:var(--white);">${w.num}</span>
+              </div>
+              <div style="background:var(--white);border:1px solid var(--gray-200);border-top:3px solid ${w.color};border-radius:var(--radius-md);padding:1rem;">
+                <div style="font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:${w.color};margin-bottom:2px;">${w.label} · ${w.dac}</div>
+                <div style="font-size:13.5px;font-weight:600;color:var(--gray-900);margin-bottom:0.6rem;">${w.title}</div>
+                <div style="font-size:10.5px;color:var(--gray-400);margin-bottom:0.6rem;font-style:italic;">Owner: ${w.owner}</div>
+                ${w.items.map(item => `<div style="display:flex;gap:5px;margin-bottom:5px;"><span style="color:${w.color};font-size:10px;margin-top:2px;flex-shrink:0;">▸</span><span style="font-size:11.5px;color:var(--gray-600);line-height:1.45;">${item}</span></div>`).join('')}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- ── KINETIC EDGE CLOSING CARD ── -->
+      <div class="ia" style="animation:is-scale 0.6s 1.2s both;background:linear-gradient(135deg,#062d22 0%,#085041 60%,#0F6E56 100%);border-radius:var(--radius-lg);padding:2rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;margin-bottom:2rem;">
+        <div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.5rem;">The Kinetic Edge</div>
+          <h2 style="font-family:var(--font-serif);font-size:26px;color:var(--white);line-height:1.25;margin-bottom:0.75rem;">From Day 1 introductions to<br>high-velocity performance.</h2>
+          <p style="font-size:13.5px;color:rgba(255,255,255,0.6);line-height:1.75;max-width:480px;margin-bottom:1.25rem;">Kinetic turns the vulnerability of a new start into a catalyst for collective growth — by making the invisible operating system of a team visible from hour one.</p>
+          <div style="display:flex;gap:0.75rem;">
+            <button onclick="navigate('dac')" style="display:inline-flex;align-items:center;gap:8px;background:#1D9E75;color:var(--white);border:none;border-radius:var(--radius-sm);padding:0.65rem 1.25rem;font-size:13.5px;font-weight:600;cursor:pointer;font-family:var(--font);">View DAC Dashboard →</button>
+            <button onclick="navigate('onboarding')" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.1);color:var(--white);border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius-sm);padding:0.65rem 1.25rem;font-size:13.5px;font-weight:500;cursor:pointer;font-family:var(--font);">Retake Assessment</button>
+          </div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:52px;font-weight:800;color:var(--white);line-height:1;margin-bottom:4px;animation:is-num 0.5s 1.5s both;">8</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.5);">Weeks to Full Sync</div>
+          <div style="margin-top:1rem;font-size:32px;font-weight:800;color:#5DCAA5;line-height:1;animation:is-num 0.5s 1.65s both;">75%</div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Sync Target</div>
+        </div>
+      </div>
+
+    </div>`;
+}
+
 
 // =================== SETTINGS (BONUS) ===================
 function renderSettings() {
